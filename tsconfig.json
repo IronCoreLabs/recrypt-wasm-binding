@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "sourceMap": true,
+        "noImplicitReturns": true,
+        "noUnusedParameters": true,
+        "noEmitOnError": true,
+        "noUnusedLocals": true,
+        "declaration": false,
+        "target": "ES2015",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "lib": ["es6", "dom"]
+    },
+    "exclude": ["node_modules"]
+}

@@ -1,0 +1,34 @@
+[package]
+name = "recrypt-wasm-binding"
+version = "0.4.0"
+authors = ["IronCore Labs <code@ironcorelabs.com>"]
+description = "Bindings to run recrypt-rs as a WebAssembly module."
+license = "AGPL-3.0-only"
+repository = "https://github.com/IronCoreLabs/recrypt-wasm-binding"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = {version = "~0.2.29", features = ["serde-serialize"]}
+serde = "~1.0.82"
+js-sys = "~0.3.6"
+serde_derive = "~1.0.82"
+rand = { version = "~0.6.1", features = ["wasm-bindgen"] }
+recrypt = { git = "https://github.com/IronCoreLabs/recrypt-rs", tag = "0.5.1"}
+
+# The recrypt Ed25519 library that we use (https://github.com/dalek-cryptography/ed25519-dalek) depends on this clear_on_drop
+# crate (https://github.com/cesarb/clear_on_drop). That crate, by default, implements code via C to clear memory. That doesn't
+# work in WASM. However, they have a feature to turn off requiring C which we're enabling here. This allows our WASM bindings to enable
+# this feature without having to change the default for our recrypt-rust crate.
+[dependencies.clear_on_drop]
+version = "0.2" #This version should match the version that the ed25519-dalek crate depends on.
+features = ["no_cc"]
+
+[profile.dev]
+opt-level = 2 # Build deps with optimization, don't build ourselves with optimization
+debug = true
+
+[profile.release]
+lto = true
+debug = false

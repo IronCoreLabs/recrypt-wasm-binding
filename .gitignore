@@ -1,0 +1,10 @@
+**/node_modules
+.DS_Store
+.vscode
+.babelrc
+npm-debug.log
+yarn-error.log
+Cargo.lock
+target/*
+pkg/*
+wasm-pack.log

@@ -1,0 +1,28 @@
+language: rust
+rust:
+    - 1.31.0
+addons:
+    chrome: stable
+cache:
+    cargo: true
+    yarn: true
+    directories:
+        - node_modules
+branches:
+    only:
+        - master
+notifications:
+    email:
+        on_success: change
+        on_failure: always
+before_script:
+    - rustup target add wasm32-unknown-unknown
+    - wasm-bindgen --version || cargo install wasm-bindgen-cli
+    - rustup component add rustfmt-preview
+script:
+    - cargo fmt -- --check
+    - nvm install 8
+    - nvm use 8
+    - yarn
+    - yarn run compile
+    - yarn test
