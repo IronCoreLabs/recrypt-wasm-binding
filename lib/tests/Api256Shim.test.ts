@@ -494,6 +494,20 @@ import("../Api256Shim").then((Recrypt) => {
                 expect(augPublicKey).not.to.deep.equal(pub1);
             });
         });
+
+        describe("pbkdf2SHA256", () => {
+            it("creates the expected derived key", () => {
+                //prettier-ignore
+                const salt = new Uint8Array([138, 136, 227, 221, 116, 9, 241, 149, 253, 82, 219, 45, 60, 186, 93, 114, 202, 103, 9, 191, 29, 148, 18, 27, 243, 116, 136, 1, 180, 15, 111, 92]);
+                const iterations = 250000;
+                const password = new Uint8Array([112, 97, 115, 115, 119, 111, 114, 100]);
+
+                expect(Recrypt.pbkdf2SHA256(salt, password, iterations)).to.deep.equal(
+                    //prettier-ignore
+                    new Uint8Array([33, 169, 177, 104, 32, 121, 170, 221, 21, 229, 188, 159, 140, 164, 44, 173, 30, 151, 210, 60, 34, 10, 160, 186, 168, 36, 102, 174, 64, 110, 227, 170])
+                );
+            });
+        });
     });
     mocha.checkLeaks();
     mocha.run();
