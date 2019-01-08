@@ -225,3 +225,14 @@ export function augmentPublicKey256(currentPublicKey: PublicKey, otherPublicKey:
 export function pbkdf2SHA256(salt: Uint8Array, password: Uint8Array, iterations: number) {
     return Recrypt.pbkdf2SHA256(salt, password, iterations);
 }
+
+/**
+ * Method to let callers set the random 32 byte seed needed when instantiating the Api256 class. Lets this library work in MS Edge which
+ * can't generate random numbers in a WebWorker.
+ */
+export function setRandomSeed(seed: Uint8Array) {
+    if (!(seed instanceof Uint8Array) || seed.length !== 32) {
+        throw new Error("Provided random seed was not of the correct type or length.");
+    }
+    return Recrypt.setRandomSeed(seed);
+}
