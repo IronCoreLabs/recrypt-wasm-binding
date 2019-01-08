@@ -371,8 +371,8 @@ pub fn augmentPublicKey256(
  * 32 bytes of salt, and an iteration count and returns a vector of bytes which can be used as a secure derived key.
  */
 #[wasm_bindgen]
-pub fn pbkdf2SHA256(salt: &[u8], password: &[u8], iterations: u32) -> Vec<u8> {
+pub fn pbkdf2SHA256(salt: &[u8], password: &[u8], iterations: usize) -> Vec<u8> {
     let mut derived_key = [0u8; 32];
-    pbkdf2::<Hmac<sha2::Sha256>>(password, salt, iterations as usize, &mut derived_key);
+    pbkdf2::<Hmac<sha2::Sha256>>(password, salt, iterations, &mut derived_key);
     derived_key.to_vec()
 }
