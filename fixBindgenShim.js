@@ -143,6 +143,9 @@ function replaceCryptoRandomCode() {
         });
 }
 
+/**
+ * Add our new method to the auto-generated TS types that get created for this module.
+ */
 function addNewSeedMethodToTypesFile() {
     const typesFile = fs.readFileSync("./target/recrypt_wasm_binding.d.ts", "utf8");
 
