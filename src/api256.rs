@@ -1,11 +1,14 @@
 #![allow(non_snake_case)]
 
+use hmac::Hmac;
+use pbkdf2::pbkdf2;
 use rand;
 use recrypt::api::Hashable;
 use recrypt::api::{
     Api, CryptoOps, Ed25519, Ed25519Ops, Ed25519Signature, KeyGenOps, Plaintext, PrivateKey,
     PublicSigningKey, RandomBytes, SchnorrOps, SchnorrSignature, Sha256, SigningKeypair,
 };
+use sha2;
 use util;
 use util::{JsError, WasmError};
 use wasm_bindgen::prelude::*;
@@ -361,4 +364,15 @@ pub fn augmentPublicKey256(
         JsValue::from_serde(&util::public_key_to_js_object(augmented_public_key))
             .map_err(WasmError::new)?,
     )
+}
+
+/**
+ * PBKDF2 algorithm which uses SHA-256 as the hashing algorithm. Takes password to create a derived key from,
+ * 32 bytes of salt, and an iteration count and returns a vector of bytes which can be used as a secure derived key.
+ */
+#[wasm_bindgen]
+pub fn pbkdf2SHA256(salt: &[u8], password: &[u8], iterations: usize) -> Vec<u8> {
+    let mut derived_key = [0u8; 32];
+    pbkdf2::<Hmac<sha2::Sha256>>(password, salt, iterations, &mut derived_key);
+    derived_key.to_vec()
 }

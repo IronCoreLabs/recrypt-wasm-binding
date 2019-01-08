@@ -218,3 +218,10 @@ export function augmentPublicKey256(currentPublicKey: PublicKey, otherPublicKey:
     const augmentedKey = Recrypt.augmentPublicKey256(publicKeyBytesToArray(currentPublicKey), publicKeyBytesToArray(otherPublicKey));
     return publicKeyArrayToBytes(augmentedKey);
 }
+
+/**
+ * Create a derived 32-byte key from the provided password bytes.
+ */
+export function pbkdf2SHA256(salt: Uint8Array, password: Uint8Array, iterations: number) {
+    return Recrypt.pbkdf2SHA256(salt, password, iterations);
+}
