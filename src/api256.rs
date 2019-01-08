@@ -1,17 +1,17 @@
 #![allow(non_snake_case)]
 
+use hmac::Hmac;
+use pbkdf2::pbkdf2;
 use rand;
 use recrypt::api::Hashable;
 use recrypt::api::{
     Api, CryptoOps, Ed25519, Ed25519Ops, Ed25519Signature, KeyGenOps, Plaintext, PrivateKey,
     PublicSigningKey, RandomBytes, SchnorrOps, SchnorrSignature, Sha256, SigningKeypair,
 };
+use sha2;
 use util;
 use util::{JsError, WasmError};
 use wasm_bindgen::prelude::*;
-use sha2;
-use hmac::Hmac;
-use pbkdf2::pbkdf2;
 
 #[wasm_bindgen]
 pub struct Api256 {
