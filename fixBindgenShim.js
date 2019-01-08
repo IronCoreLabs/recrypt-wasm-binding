@@ -33,12 +33,18 @@ shell.set("-e");
 const rootDirectory = path.dirname(process.argv[1]);
 shell.cd(`${rootDirectory}/`);
 
+if (!process.argv[2]) {
+    throw new Error("Script must take the directory of files to modify as an argument.");
+}
+
+const SOURCE_DIRECTORY = path.normalize(process.argv[2]);
+
 /**
  * Read in the auto generated shim code, replace the method that we don't want, and write out the results back to
  * the same file.
  */
 function removeNodeJSFunctions() {
-    const shimJS = fs.readFileSync("./target/recrypt_wasm_binding.js", "utf8");
+    const shimJS = fs.readFileSync(`${SOURCE_DIRECTORY}/recrypt_wasm_binding.js`, "utf8");
 
     //Replace the entire __wbg_require_ method that is auto generated in the output
     const codeWithoutNode = shimJS
@@ -48,8 +54,7 @@ function removeNodeJSFunctions() {
     if (codeWithoutNode.includes("require(") || codeWithoutNode.includes("randomFillSync")) {
         throw new Error("Replacement of NodeJS import and/or randomFillSync functions failed!");
     }
-
-    fs.writeFileSync("./target/recrypt_wasm_binding.js", codeWithoutNode, "utf8");
+    fs.writeFileSync(`${SOURCE_DIRECTORY}/recrypt_wasm_binding.js`, codeWithoutNode, "utf8");
 }
 
 /**
@@ -130,13 +135,13 @@ export function setRandomSeed(seed) {\n\
  * relying on window.crypto
  */
 function replaceCryptoRandomCode() {
-    const shimJS = fs.readFileSync("./target/recrypt_wasm_binding.js", "utf8");
+    const shimJS = fs.readFileSync(`${SOURCE_DIRECTORY}/recrypt_wasm_binding.js`, "utf8");
 
     replaceCryptoHeap(shimJS)
         .then(replaceRandomValuesHeap)
         .then(replaceRandomValuesCallAndAddSeedSetCall)
         .then((replacementShim) => {
-            fs.writeFileSync("./target/recrypt_wasm_binding.js", replacementShim, "utf8");
+            fs.writeFileSync(`${SOURCE_DIRECTORY}/recrypt_wasm_binding.js`, replacementShim, "utf8");
         })
         .catch((e) => {
             throw e;
@@ -147,16 +152,18 @@ function replaceCryptoRandomCode() {
  * Add our new method to the auto-generated TS types that get created for this module.
  */
 function addNewSeedMethodToTypesFile() {
-    const typesFile = fs.readFileSync("./target/recrypt_wasm_binding.d.ts", "utf8");
-
+    //When building for release, we use our own types file, so we don't have/need to modify this one there.
+    if (!fs.existsSync(`${SOURCE_DIRECTORY}/recrypt_wasm_binding.d.ts`)) {
+        return;
+    }
+    const typesFile = fs.readFileSync(`${SOURCE_DIRECTORY}/recrypt_wasm_binding.d.ts`, "utf8");
     const setRandomSeedType = "export function setRandomSeed(seed: Uint8Array): void;";
-
     const replacedTypes = typesFile.replace(/(export function pbkdf2SHA256[(])/, `${setRandomSeedType}\n$1`);
 
     if (!replacedTypes.includes("setRandomSeed")) {
         throw new Error("Failed to add new method to types file!");
     }
-    fs.writeFileSync("./target/recrypt_wasm_binding.d.ts", replacedTypes, "utf8");
+    fs.writeFileSync(`${SOURCE_DIRECTORY}/recrypt_wasm_binding.d.ts`, replacedTypes, "utf8");
 }
 
 removeNodeJSFunctions();
