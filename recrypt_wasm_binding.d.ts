@@ -59,3 +59,4 @@ export function transformKeyToBytes256(transformKey: TransformKey): Uint8Array;
 export function augmentTransformKey256(transformKey: TransformKey, privateKey: PrivateKey): TransformKey;
 export function augmentPublicKey256(currentPublicKey: PublicKey, otherPublicKey: PublicKey): PublicKey;
 export function pbkdf2SHA256(salt: Uint8Array, password: Uint8Array, iterations: number): Uint8Array;
+export function setRandomSeed(seed: Uint8Array): void;

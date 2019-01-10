@@ -30,7 +30,6 @@ import("../Api256Shim").then((Recrypt) => {
 
             describe("generateKeyPair", () => {
                 it("should generate keypairs of the expected length", () => {
-                    console.log(Recrypt);
                     const keypairs = api.generateKeyPair();
                     expect(keypairs).to.be.a("object");
                     expect(Object.keys(keypairs)).to.have.lengthOf(2);
@@ -506,6 +505,22 @@ import("../Api256Shim").then((Recrypt) => {
                     //prettier-ignore
                     new Uint8Array([33, 169, 177, 104, 32, 121, 170, 221, 21, 229, 188, 159, 140, 164, 44, 173, 30, 151, 210, 60, 34, 10, 160, 186, 168, 36, 102, 174, 64, 110, 227, 170])
                 );
+            });
+        });
+
+        describe("setRandomSeed", () => {
+            it("exists and doesnt throw", () => {
+                expect(() => Recrypt.setRandomSeed(new Uint8Array(32))).not.to.throw;
+            });
+
+            it("throws when wrong type or wrong size", () => {
+                expect(() => Recrypt.setRandomSeed("foo" as any)).to.throw;
+                expect(() => Recrypt.setRandomSeed({} as any)).to.throw;
+                expect(() => Recrypt.setRandomSeed([] as any)).to.throw;
+
+                expect(() => Recrypt.setRandomSeed(new Uint8Array(30))).to.throw;
+                expect(() => Recrypt.setRandomSeed(new Uint8Array(0))).to.throw;
+                expect(() => Recrypt.setRandomSeed(new Uint8Array(31))).to.throw;
             });
         });
     });

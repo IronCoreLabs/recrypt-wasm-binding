@@ -3,7 +3,10 @@
     "scripts": {
         "test": "node tests/testRunner",
         "testInBrowser": "WEBPACK_MODE=test webpack-dev-server --config webpack.config.js",
-        "compile": "cargo build --release --target wasm32-unknown-unknown && wasm-bindgen target/wasm32-unknown-unknown/release/recrypt_wasm_binding.wasm --browser --out-dir target --remove-name-section",
+        "fixBindgenShim": "node fixBindgenShim.js ./target",
+        "cargoBuild": "cargo build --release --target wasm32-unknown-unknown",
+        "generateBindgenShim": "wasm-bindgen target/wasm32-unknown-unknown/release/recrypt_wasm_binding.wasm --browser --out-dir target --remove-name-section",
+        "compile": "yarn run cargoBuild && yarn run generateBindgenShim && yarn run fixBindgenShim",
         "benchmark": "WEBPACK_MODE=benchmark webpack-dev-server --config webpack.config.js --compress",
         "pack": "wasm-pack build --target browser --scope ironcorelabs --no-typescript"
     },

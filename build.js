@@ -38,6 +38,9 @@ shell.exec("yarn run compile");
 shell.exec("yarn test");
 shell.exec("yarn run pack");
 
+//Run our shim fix script on the files in the ./pkg directory
+shell.exec("node fixBindgenShim.js ./pkg");
+
 //Move our manually written TS types into the distribution folder
 shell.cp("./recrypt_wasm_binding.d.ts", "./pkg");
 
@@ -45,9 +48,6 @@ shell.cp("./recrypt_wasm_binding.d.ts", "./pkg");
 shell.exec("./node_modules/typescript/bin/tsc --lib es6 --target ES2015 --sourceMap false --module esnext --outDir ./pkg lib/Api256Shim.ts");
 //Tweak wasm-bindgen import location since we moved the file to the same directory as the wasm-bindgen produced shim
 shell.sed("-i", `from "../target/`, `from "./`, "./pkg/Api256Shim.js");
-//wasm-bindgen with the rand crate incorrectly adds an inert function that tries to do a require call for node. This function
-//isn't used or called anywhere but causes a warning in webpack. So manually remove the `require` line to avoid that.
-shell.sed("-i", "return addHeapObject[(]require[(]varg0[)][)];", "", "./pkg/recrypt_wasm_binding.js");
 
 //We need to tweak the wasm-pack generated package.json file since we have our own shim that fronts wasm-bindgen
 const generatedPackageJson = require("./pkg/package.json");
