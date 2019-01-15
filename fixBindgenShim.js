@@ -113,9 +113,12 @@ export function setRandomSeed(seed) {\n\
 
     //prettier-ignore
     const getRandomValuesReplacementCode =
-    `(randomSeed instanceof Uint8Array && randomSeed.length === 32) ?\n \
-        varg1.set(randomSeed, 0) :\n \
-        getObject(arg0).getRandomValues(varg1); \
+    `if(randomSeed instanceof Uint8Array && randomSeed.length === 32) {\n\
+       varg1.set(randomSeed, 0);\n\
+       randomSeed = undefined;\n\
+     } else {\n\
+       getObject(arg0).getRandomValues(varg1);\n\
+     }\n\
     `;
 
     const replacedSource = source
