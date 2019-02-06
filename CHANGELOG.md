@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.3
+
++ Upgrade to the latest released version of recrypt-rs (0.6.1) to avoid depending on fork of ed25519.
+
 ## 0.4.2
 
 + If/when random seed is set, it's value will be cleared after use so it cannot be used as a seed for any subsequent operations.
