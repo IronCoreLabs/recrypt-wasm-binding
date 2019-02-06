@@ -1,6 +1,6 @@
 [package]
 name = "recrypt-wasm-binding"
-version = "0.4.2"
+version = "0.4.3"
 authors = ["IronCore Labs <code@ironcorelabs.com>"]
 description = "Bindings to run recrypt-rs as a WebAssembly module."
 license = "AGPL-3.0-only"
@@ -18,7 +18,7 @@ hmac = "0.7"
 sha2 = "0.8"
 serde_derive = "~1.0.82"
 rand = { version = "0.6", features = ["wasm-bindgen"] }
-recrypt = { git = "https://github.com/IronCoreLabs/recrypt-rs", tag = "0.5.1"}
+recrypt = "0.6"
 
 # The recrypt Ed25519 library that we use (https://github.com/dalek-cryptography/ed25519-dalek) depends on this clear_on_drop
 # crate (https://github.com/cesarb/clear_on_drop). That crate, by default, implements code via C to clear memory. That doesn't
