@@ -19,15 +19,7 @@ hmac = "0.7"
 sha2 = "0.8"
 serde_derive = "~1.0"
 rand = { version = "0.6", features = ["wasm-bindgen"] }
-recrypt = "^0.7"
-
-# The recrypt Ed25519 library that we use (https://github.com/dalek-cryptography/ed25519-dalek) depends on this clear_on_drop
-# crate (https://github.com/cesarb/clear_on_drop). That crate, by default, implements code via C to clear memory. That doesn't
-# work in WASM. However, they have a feature to turn off requiring C which we're enabling here. This allows our WASM bindings to enable
-# this feature without having to change the default for our recrypt-rust crate.
-[dependencies.clear_on_drop]
-version = "0.2" #This version should match the version that the ed25519-dalek crate depends on.
-features = ["no_cc"]
+recrypt = { git = "https://github.com/IronCoreLabs/recrypt-rs", branch = "wasmFeatures", features = ["wasm"], default-features = false }
 
 [profile.dev]
 opt-level = 2 # Build deps with optimization, don't build ourselves with optimization

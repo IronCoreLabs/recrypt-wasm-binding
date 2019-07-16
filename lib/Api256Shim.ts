@@ -122,7 +122,6 @@ export class Api256 {
      * Generate a Recrypt public and private key pair. Returns results as Uint8Arrays.
      */
     generateKeyPair() {
-        debugger;
         const {privateKey, publicKey} = this.api.generateKeyPair();
         return {
             privateKey: new Uint8Array(privateKey),
