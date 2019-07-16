@@ -46,10 +46,10 @@ const SOURCE_DIRECTORY = path.normalize(process.argv[2]);
 function removeNodeJSFunctions() {
     const shimJS = fs.readFileSync(`${SOURCE_DIRECTORY}/recrypt_wasm_binding.js`, "utf8");
 
-    //Replace the entire __wbg_require_ method that is auto generated in the output
+    //Replace the entire __wbg_require and randomFillSYnc method that is auto generated in the output
     const codeWithoutNode = shimJS
-        .replace(/\nexport function __wbg_require_[a-f0-9]*[(]arg0, arg1[)] {[^}]*}\n/, "")
-        .replace(/\nexport function __wbg_randomFillSync_[a-f0-9]*[(]arg0, arg1, arg2[)] {[^}]*}\n/, "");
+        .replace(/\nexport const __wbg_require_[a-f0-9]* = function[(]arg0, arg1[)] {[^}]*};\n/, "")
+        .replace(/\nexport const __wbg_randomFillSync_[a-f0-9]* = function[(]arg0, arg1, arg2[)] {[^}]*};\n/, "");
 
     if (codeWithoutNode.includes("require(") || codeWithoutNode.includes("randomFillSync")) {
         throw new Error("Replacement of NodeJS import and/or randomFillSync functions failed!");
@@ -70,7 +70,7 @@ function replaceCryptoHeap(source) {
     return arg0; \
 `;
 
-    const updatedSource = source.replace(/return addHeapObject[(]getObject[(]arg0[)][.]crypto[)];/, replacementCode);
+    const updatedSource = source.replace(/const ret = getObject[(]arg0[)].crypto;\n*\s*return addHeapObject[(]ret[)];/, replacementCode);
 
     if (updatedSource.includes("getObject(arg0).crypto")) {
         return Promise.reject(new Error("Replacement of window.crypto heap check failed!"));
@@ -91,9 +91,9 @@ function replaceRandomValuesHeap(source) {
     return arg0; \
 `;
 
-    const updatedSource = source.replace(/return addHeapObject[(]getObject[(]arg0[)][.]getRandomValues[)];/, replacementCode);
+    const updatedSource = source.replace(/const ret = getObject[(]arg0[)].getRandomValues;\n*\s*return addHeapObject[(]ret[)];/, replacementCode);
 
-    if (updatedSource.includes("addHeapObject(getObject(arg0).getRandomValues")) {
+    if (updatedSource.includes("getObject(arg0).getRandomValues;")) {
         return Promise.reject(new Error("Replacement of window.crypto.getRandomValues heap check failed!"));
     }
     return Promise.resolve(updatedSource);
@@ -107,27 +107,28 @@ function replaceRandomValuesCallAndAddSeedSetCall(source) {
     //prettier-ignore
     const setRandomSeedFunction =
 `let randomSeed;\n\
-export function setRandomSeed(seed) {\n\
+export const setRandomSeed = (seed) => {\n\
     randomSeed = seed;\n\
 }`;
 
     //prettier-ignore
     const getRandomValuesReplacementCode =
-    `if(randomSeed instanceof Uint8Array && randomSeed.length === 32) {\n\
-       varg1.set(randomSeed, 0);\n\
+    `const randBuffer = getArrayU8FromWasm(arg1, arg2);
+     if(randomSeed instanceof Uint8Array && randomSeed.length === 32) {\n\
+       randBuffer.set(randomSeed, 0);\n\
        randomSeed = undefined;\n\
      } else {\n\
-       getObject(arg0).getRandomValues(varg1);\n\
+       getObject(arg0).getRandomValues(randBuffer);\n\
      }\n\
     `;
 
     const replacedSource = source
         //First replace the contents of the function to conditionally use the pre-set seed
-        .replace(/getObject[(]arg0[)][.]getRandomValues[(]varg1[)];/, getRandomValuesReplacementCode)
+        .replace(/getObject[(]arg0[)][.]getRandomValues[(]getArrayU8FromWasm[(]arg1, arg2[)]{2};/, getRandomValuesReplacementCode)
         //Then add our new method which lets us optionally set the seed
-        .replace(/(export function __wbg_getRandomValues_[0-9a-f]*[(]arg0, arg1)/, `${setRandomSeedFunction}\n\n$1`);
+        .replace(/(export const __wbg_getRandomValues_[0-9a-f]+ = function[(]arg0, arg1)/, `${setRandomSeedFunction}\n\n$1`);
 
-    if (!replacedSource.includes("export function setRandomSeed")) {
+    if (!replacedSource.includes("export const setRandomSeed =")) {
         return Promise.reject(new Error("Failed to add setRandomSeed function to shim!"));
     }
     return Promise.resolve(replacedSource);
