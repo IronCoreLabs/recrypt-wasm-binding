@@ -10,6 +10,7 @@ pub type JsError = wasm_bindgen::prelude::JsValue;
 pub struct WasmError<E> {
     error: E,
 }
+
 impl<E> WasmError<E> {
     pub fn new(error: E) -> WasmError<E> {
         WasmError { error: error }
@@ -71,7 +72,7 @@ pub struct JsEncryptedValue {
  * Macro to generate methods to convert various slice types (slices, vectors) into fixed length arrays of
  * varying length.
  */
-macro_rules! slice_to_fixed_bytes { ($($fn_name:ident, $slice_type: ty, $n: expr); *) => {
+macro_rules! slice_to_fixed_bytes { ($($fn_name: ident, $slice_type: ty, $n: expr); *) => {
     $(pub fn $fn_name(slice: $slice_type, field_name: &str) -> [u8; $n]{
         if slice.len() != $n {
             panic!(format!(
@@ -87,9 +88,7 @@ macro_rules! slice_to_fixed_bytes { ($($fn_name:ident, $slice_type: ty, $n: expr
     })+
 }}
 
-/**
- * Use the macro to generate the various fixed length array types
- */
+// Use the macro to generate the various fixed length array types
 slice_to_fixed_bytes! {
     slice_to_fixed_32_bytes, &[u8], 32;
     slice_to_fixed_64_bytes, &[u8], 64;

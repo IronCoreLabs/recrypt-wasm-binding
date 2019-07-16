@@ -11,16 +11,16 @@
         "pack": "wasm-pack build --target browser --scope ironcorelabs --no-typescript"
     },
     "devDependencies": {
-        "html-webpack-include-assets-plugin": "^1.0.6",
         "html-webpack-plugin": "^3.2.0",
-        "puppeteer": "^1.11.0",
+        "html-webpack-tags-plugin": "^2.0.13",
+        "puppeteer": "^1.18.1",
         "shelljs": "^0.8.3",
         "text-encoding": "^0.7.0",
-        "ts-loader": "^5.3.1",
-        "typescript": "^3.2.2",
-        "webpack": "^4.27.1",
-        "webpack-cli": "^3.1.2",
-        "webpack-dev-server": "^3.1.10"
+        "ts-loader": "^6.0.4",
+        "typescript": "^3.5.3",
+        "webpack": "^4.35.3",
+        "webpack-cli": "^3.3.6",
+        "webpack-dev-server": "^3.7.2"
     },
     "prettier": {
         "printWidth": 160,

@@ -58,7 +58,13 @@ function transformKeyArrayToBytes(transformKey: any): TransformKey {
  * of objects going in to normal arrays (which can be successfully serialized) as well as converting array values coming out of Rust from normal arrays
  * into Uint8Arrays.
  */
-export class Api256 extends Recrypt.Api256 {
+export class Api256 {
+    private api: Recrypt.Api256;
+
+    constructor() {
+        this.api = new Recrypt.Api256();
+    }
+
     /**
      * Map over each incoming transform block and convert the byte values into normal arrays so they can be passed into WASM.
      */
@@ -116,7 +122,7 @@ export class Api256 extends Recrypt.Api256 {
      * Generate a Recrypt public and private key pair. Returns results as Uint8Arrays.
      */
     generateKeyPair() {
-        const {privateKey, publicKey} = super.generateKeyPair();
+        const {privateKey, publicKey} = this.api.generateKeyPair();
         return {
             privateKey: new Uint8Array(privateKey),
             publicKey: publicKeyArrayToBytes(publicKey),
@@ -127,7 +133,7 @@ export class Api256 extends Recrypt.Api256 {
      * Generate an ed25519 signing key pair.
      */
     generateEd25519KeyPair() {
-        const {privateKey, publicKey} = super.generateEd25519KeyPair();
+        const {privateKey, publicKey} = this.api.generateEd25519KeyPair();
         return {
             privateKey: new Uint8Array(privateKey),
             publicKey: new Uint8Array(publicKey),
@@ -135,10 +141,38 @@ export class Api256 extends Recrypt.Api256 {
     }
 
     /**
+     * Sign the provided message with the provided ed25519 private key.
+     */
+    ed25519Sign(privateSigningKey: Uint8Array, message: Uint8Array) {
+        return this.api.ed25519Sign(privateSigningKey, message);
+    }
+
+    /**
+     * Verify that the provided signature matches the provided message and was signed with the private key associated to the provided public signing key
+     */
+    ed25519Verify(publicSigningKey: Uint8Array, message: Uint8Array, signature: Uint8Array) {
+        return this.api.ed25519Verify(publicSigningKey, message, signature);
+    }
+
+    /**
+     * Compute an ed25519 public key given its private key.
+     */
+    computeEd25519PublicKey(privateSigningKey: Uint8Array) {
+        return this.api.computeEd25519PublicKey(privateSigningKey);
+    }
+
+    /**
+     * Generate a new Recrypt plaintext
+     */
+    generatePlaintext() {
+        return this.api.generatePlaintext();
+    }
+
+    /**
      * Generate a transform key from the provided private key to the provided public key.
      */
     generateTransformKey(fromPrivateKey: Uint8Array, toPublicKey: PublicKey, privateSigningKey: Uint8Array): TransformKey {
-        const transformKey = super.generateTransformKey(fromPrivateKey, publicKeyBytesToArray(toPublicKey), privateSigningKey);
+        const transformKey = this.api.generateTransformKey(fromPrivateKey, publicKeyBytesToArray(toPublicKey), privateSigningKey);
         return transformKeyArrayToBytes(transformKey);
     }
 
@@ -146,7 +180,7 @@ export class Api256 extends Recrypt.Api256 {
      * Compute the associated public key for the provided private key bytes.
      */
     computePublicKey(privateKey: Uint8Array) {
-        return publicKeyArrayToBytes(super.computePublicKey(privateKey));
+        return publicKeyArrayToBytes(this.api.computePublicKey(privateKey));
     }
 
     /**
@@ -154,7 +188,7 @@ export class Api256 extends Recrypt.Api256 {
      * complex object of encrypted data which can be directly passed into decrypt.
      */
     encrypt(plaintext: Uint8Array, toPublicKey: PublicKey, privateSigningKey: Uint8Array): EncryptedValue {
-        const encryptedValue = super.encrypt(plaintext, publicKeyBytesToArray(toPublicKey), privateSigningKey);
+        const encryptedValue = this.api.encrypt(plaintext, publicKeyBytesToArray(toPublicKey), privateSigningKey);
         return this.encryptedValueArrayToBytes(encryptedValue);
     }
 
@@ -163,7 +197,7 @@ export class Api256 extends Recrypt.Api256 {
      * a new EncryptedValue with another level of transformBlocks in it.
      */
     transform(encryptedValue: EncryptedValue, transformKey: TransformKey, privateSigningKey: Uint8Array): EncryptedValue {
-        const transformedEncryptedValue = super.transform(
+        const transformedEncryptedValue = this.api.transform(
             this.encryptedValueBytesToArray(encryptedValue),
             transformKeyBytesToArray(transformKey),
             privateSigningKey
@@ -176,14 +210,21 @@ export class Api256 extends Recrypt.Api256 {
      * Decrypt the provided encrypted value using the provided private key and return the decrypted plaintext bytes as a Uint8Array.
      */
     decrypt(encryptedValue: EncryptedValue, privateKey: Uint8Array) {
-        return super.decrypt(this.encryptedValueBytesToArray(encryptedValue), privateKey);
+        return this.api.decrypt(this.encryptedValueBytesToArray(encryptedValue), privateKey);
+    }
+
+    /**
+     * Derive the 32 byte symmetric key from the provided plaintext.
+     */
+    deriveSymmetricKey(plaintext: Uint8Array) {
+        return this.api.deriveSymmetricKey(plaintext);
     }
 
     /**
      * Sign the provided message with the provided keypair using Schnorr signing. Returns a 64 byte signature.
      */
     schnorrSign(privateKey: Uint8Array, publicKey: PublicKey, message: Uint8Array) {
-        return super.schnorrSign(privateKey, publicKeyBytesToArray(publicKey), message);
+        return this.api.schnorrSign(privateKey, publicKeyBytesToArray(publicKey), message);
     }
 
     /**
@@ -192,7 +233,14 @@ export class Api256 extends Recrypt.Api256 {
      *
      */
     schnorrVerify(publicKey: PublicKey, augmentedPrivateKey: Uint8Array | undefined, message: Uint8Array, signature: Uint8Array) {
-        return super.schnorrVerify(publicKeyBytesToArray(publicKey), augmentedPrivateKey as Uint8Array, message, signature);
+        return this.api.schnorrVerify(publicKeyBytesToArray(publicKey), augmentedPrivateKey as Uint8Array, message, signature);
+    }
+
+    /**
+     * SHA256 hash the provided bytes
+     */
+    hash256(bytes: Uint8Array) {
+        return this.api.hash256(bytes);
     }
 }
 

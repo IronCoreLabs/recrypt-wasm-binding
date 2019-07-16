@@ -1,28 +1,29 @@
 #![allow(non_snake_case)]
 
+use crate::util::{self, JsError, WasmError};
 use hmac::Hmac;
 use pbkdf2::pbkdf2;
-use rand;
-use recrypt::api::Hashable;
+use rand::rngs::ThreadRng;
 use recrypt::api::{
-    Api, CryptoOps, Ed25519, Ed25519Ops, Ed25519Signature, KeyGenOps, Plaintext, PrivateKey,
-    PublicSigningKey, RandomBytes, SchnorrOps, SchnorrSignature, Sha256, SigningKeypair,
+    Ed25519, Ed25519Signature, Hashable, Plaintext, PrivateKey, PublicSigningKey, RandomBytes,
+    Recrypt, SchnorrSignature, Sha256, Sha256Hashing, SigningKeypair,
 };
+use recrypt::prelude::*;
 use sha2;
-use util;
-use util::{JsError, WasmError};
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub struct Api256 {
-    api: Api<Sha256, Ed25519, RandomBytes<rand::rngs::ThreadRng>>,
+    api: Recrypt<Sha256, Ed25519, RandomBytes<ThreadRng>>,
 }
 
 #[wasm_bindgen]
 impl Api256 {
     #[wasm_bindgen(constructor)]
     pub fn new() -> Api256 {
-        Api256 { api: Api::new() }
+        Api256 {
+            api: Recrypt::new(),
+        }
     }
 
     /**
@@ -125,7 +126,7 @@ impl Api256 {
                     from_private_key,
                     "privateKey",
                 )),
-                util::js_object_to_public_key(&to_public_key_obj)?,
+                &util::js_object_to_public_key(&to_public_key_obj)?,
                 &SigningKeypair::from_bytes(&util::slice_to_fixed_64_bytes(
                     private_signing_key,
                     "privateSigningKey",
@@ -161,7 +162,7 @@ impl Api256 {
      * Hash the incoming bytes to _exactly_ 32 bytes. Useful for generating PrivateKeys, among other things.
      */
     pub fn hash256(&mut self, hashable_bytes: &[u8]) -> Vec<u8> {
-        self.api.hash_256(&hashable_bytes.to_vec()).to_vec()
+        Sha256.hash(&hashable_bytes.to_vec()).to_vec()
     }
 
     /**
@@ -194,7 +195,7 @@ impl Api256 {
             .api
             .encrypt(
                 &Plaintext::new(util::slice_to_fixed_384_bytes(plaintext, "plaintext")),
-                util::js_object_to_public_key(&to_public_key_obj)?,
+                &util::js_object_to_public_key(&to_public_key_obj)?,
                 &SigningKeypair::from_bytes(&util::slice_to_fixed_64_bytes(
                     private_signing_key,
                     "privateSigningKey",
@@ -278,7 +279,7 @@ impl Api256 {
 
         let signature = self.api.schnorr_sign(
             &PrivateKey::new(util::slice_to_fixed_32_bytes(private_key, "privateKey")),
-            util::js_object_to_public_key(&public_key)?,
+            &util::js_object_to_public_key(&public_key)?,
             &message.to_vec(),
         );
         Ok(signature.bytes().to_vec())
@@ -298,7 +299,7 @@ impl Api256 {
         let public_key: util::JsPublicKey = public_key_obj.into_serde().map_err(WasmError::new)?;
 
         Ok(self.api.schnorr_verify(
-            util::js_object_to_public_key(&public_key)?,
+            &util::js_object_to_public_key(&public_key)?,
             augmented_private_key
                 .map(|v| PrivateKey::new(util::vector_to_fixed_32_bytes(&v, "augmentedPrivateKey")))
                 .as_ref(),
