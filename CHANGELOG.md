@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0
+
++ Upgrade all dependencies to latest version, including recrypt-rs (0.7.1).
++ Enable feature flags to use u32 backend for `ed25519-dalek`. Reduces the size of the resulting WASM binary.
+
 ## 0.4.3
 
 + Upgrade to the latest released version of recrypt-rs (0.6.1) to avoid depending on fork of ed25519.
