@@ -2,7 +2,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlWebpackTagsPlugin = require("html-webpack-tags-plugin");
 
-let entry = "./lib/index.ts";
+let entry;
 let includeAssets = [];
 
 if (process.env.WEBPACK_MODE === "test") {

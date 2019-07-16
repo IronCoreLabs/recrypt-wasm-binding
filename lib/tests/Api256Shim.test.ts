@@ -18,6 +18,8 @@ reporterDiv.id = "mocha";
 document.body.appendChild(reporterDiv);
 
 import("../Api256Shim").then((Recrypt) => {
+    console.log(Recrypt);
+    console.log(Recrypt.Api256);
     describe("Recrypt", () => {
         describe("Api256", () => {
             after(() => {
