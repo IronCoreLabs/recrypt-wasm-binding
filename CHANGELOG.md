@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.5.2
+## 0.5.3
 
 + Upgrade `recrypt-rs` to 0.8.2
 + Expose two new functions for adding or subtracting two private keys.

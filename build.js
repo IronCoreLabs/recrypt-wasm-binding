@@ -38,6 +38,11 @@ shell.exec("yarn run compile");
 shell.exec("yarn test");
 shell.exec("yarn run pack");
 
+//wasm-pack generates a .gitignore file with '*' that ends up causing not all of our published content to get pushed out, delete it and instead
+//use an empty .npmignore file so that NPM publishes everything within the directory
+shell.exec("rm ./pkg/.gitignore");
+fs.writeFileSync("./pkg/.npmignore", "");
+
 //Run our shim fix script on the files in the ./pkg directory
 shell.exec("node fixBindgenShim.js ./pkg");
 
