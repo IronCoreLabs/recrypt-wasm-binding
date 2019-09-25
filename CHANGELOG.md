@@ -1,13 +1,13 @@
 # Changelog
 
-## 0.5.1
+## 0.5.2
 
 + Upgrade `recrypt-rs` to 0.8.2
 + Expose two new functions for adding or subtracting two private keys.
   + `Recrypt.addPrivateKeys(key1: Uint8Array, key2: Uint8Array): Uint8Array`
   + `Recrypt.subtractPrivateKeys(key1: Uint8Array, key2: Uint8Array): Uint8Array`
 
-## 0.5.0
+## 0.5.1
 
 + Upgrade all dependencies to latest version, including recrypt-rs (0.7.1).
 + Enable feature flags to use u32 backend for `ed25519-dalek`. Reduces the size of the resulting WASM binary.
