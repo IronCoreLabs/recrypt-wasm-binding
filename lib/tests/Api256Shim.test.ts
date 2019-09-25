@@ -18,6 +18,8 @@ reporterDiv.id = "mocha";
 document.body.appendChild(reporterDiv);
 
 import("../Api256Shim").then((Recrypt) => {
+    const api = new Recrypt.Api256();
+
     describe("Recrypt", () => {
         describe("Api256", () => {
             after(() => {
@@ -25,8 +27,6 @@ import("../Api256Shim").then((Recrypt) => {
                 completeDiv.id = "mocha_complete";
                 document.body.appendChild(completeDiv);
             });
-
-            const api = new Recrypt.Api256();
 
             describe("generateKeyPair", () => {
                 it("should generate keypairs of the expected length", () => {
@@ -428,7 +428,6 @@ import("../Api256Shim").then((Recrypt) => {
 
         describe("transformKeyToBytes256", () => {
             it("converts a transform key into bytes", () => {
-                const api = new Recrypt.Api256();
                 const fromPrivateKey = api.generateKeyPair().privateKey;
                 const toPublicKey = api.generateKeyPair().publicKey;
 
@@ -442,7 +441,6 @@ import("../Api256Shim").then((Recrypt) => {
 
         describe("augmentTransformKey256", () => {
             it("returns an augmented transform key", () => {
-                const api = new Recrypt.Api256();
                 const fromPrivateKey = api.generateKeyPair().privateKey;
                 const toPublicKey = api.generateKeyPair().publicKey;
                 const augPrivateKey = api.generateKeyPair().privateKey;
@@ -477,7 +475,6 @@ import("../Api256Shim").then((Recrypt) => {
 
         describe("augmentPublicKey256", () => {
             it("augments the provided public key", () => {
-                const api = new Recrypt.Api256();
                 const pub1 = api.generateKeyPair().publicKey;
                 const pub2 = api.generateKeyPair().publicKey;
 
@@ -504,6 +501,33 @@ import("../Api256Shim").then((Recrypt) => {
                 expect(Recrypt.pbkdf2SHA256(salt, password, iterations)).to.deep.equal(
                     //prettier-ignore
                     new Uint8Array([33, 169, 177, 104, 32, 121, 170, 221, 21, 229, 188, 159, 140, 164, 44, 173, 30, 151, 210, 60, 34, 10, 160, 186, 168, 36, 102, 174, 64, 110, 227, 170])
+                );
+            });
+        });
+
+        describe("addPrivateKeys", () => {
+            it("provides expected value when keys are added", () => {
+                //prettier-ignore
+                const key1 = new Uint8Array([1, 2, 0, 221, 116, 9, 241, 149, 253, 82, 219, 45, 60, 186, 93, 114, 202, 103, 9, 191, 29, 148, 18, 27, 243, 116, 136, 1, 180, 1, 1, 0]);
+                //prettier-ignore
+                const key2 = new Uint8Array([1, 1, 1, 104, 32, 121, 170, 221, 21, 229, 188, 159, 140, 164, 44, 173, 30, 151, 210, 60, 34, 10, 160, 186, 168, 36, 102, 174, 64, 0, 0, 1]);
+                expect(Recrypt.addPrivateKeys(key1, key2)).to.deep.equal(
+                    //prettier-ignore
+                    new Uint8Array([2, 3, 2, 69, 148, 131, 156, 115, 19, 56, 151, 204, 201, 94, 138, 31, 232, 254, 219, 251, 63, 158, 178, 214, 155, 152, 238, 175, 244, 1, 1, 1])
+                );
+            });
+        });
+
+        describe("subtractPrivateKeys", () => {
+            it("provides expected values when keys are subtracted", () => {
+                //prettier-ignore
+                const key1 = new Uint8Array([1, 2, 0, 221, 116, 9, 241, 149, 253, 82, 219, 45, 60, 186, 93, 114, 202, 103, 9, 191, 29, 148, 18, 27, 243, 116, 136, 1, 180, 1, 1, 0]);
+                //prettier-ignore
+                const key2 = new Uint8Array([1, 1, 1, 104, 32, 121, 170, 221, 21, 229, 188, 159, 140, 164, 44, 173, 30, 151, 210, 60, 34, 10, 160, 186, 168, 36, 102, 174, 64, 0, 0, 1]);
+                console.log(Recrypt.subtractPrivateKeys(key1, key2));
+                expect(Recrypt.subtractPrivateKeys(key1, key2)).to.deep.equal(
+                    //prettier-ignore
+                    new Uint8Array([0, 0, 255, 117, 83, 144, 70, 184, 231, 109, 30, 141, 176, 22, 48, 197, 171, 207, 55, 130, 251, 137, 113, 97, 75, 80, 33, 83, 116, 1, 0, 255])
                 );
             });
         });

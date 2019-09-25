@@ -1,55 +1,47 @@
-import {PublicKey, EncryptedValue, TransformKey, TransformBlock, PrivateKey} from "../recrypt_wasm_binding";
+import {EncryptedValue, KeyPair, PrivateKey, PublicKey, SigningKeyPair, TransformBlock, TransformKey} from "../recrypt_wasm_binding";
 import * as Recrypt from "../target/recrypt_wasm_binding";
 
 /**
  * Convert a public key with Uint8Array values into a public key with normal array values. This is used to pass bytes into
  * WASM as it can't deserialize complex objects with Uint8Arrays.
  */
-function publicKeyBytesToArray(publicKey: {x: Uint8Array; y: Uint8Array}) {
-    return {
-        x: Array.from(publicKey.x),
-        y: Array.from(publicKey.y),
-    };
-}
+const publicKeyBytesToArray = (publicKey: {x: Uint8Array; y: Uint8Array}) => ({
+    x: Array.from(publicKey.x),
+    y: Array.from(publicKey.y),
+});
 
 /**
  * Convert a public key object with array values into a public key object with Uint8Arrays. This is used for data coming out
  * of WASM as it can't serialize objects with Uint8Arrays as values.
  */
-function publicKeyArrayToBytes(publicKey: {x: number[]; y: number[]}): PublicKey {
-    return {
-        x: new Uint8Array(publicKey.x),
-        y: new Uint8Array(publicKey.y),
-    };
-}
+const publicKeyArrayToBytes = (publicKey: {x: number[]; y: number[]}): PublicKey => ({
+    x: new Uint8Array(publicKey.x),
+    y: new Uint8Array(publicKey.y),
+});
 
 /**
  * Convert the provided TransformKey object with Uint8Array fields into the same object shape with normal array fields
  */
-function transformKeyBytesToArray(transformKey: TransformKey) {
-    return {
-        encryptedTempKey: Array.from(transformKey.encryptedTempKey),
-        ephemeralPublicKey: publicKeyBytesToArray(transformKey.ephemeralPublicKey),
-        hashedTempKey: Array.from(transformKey.hashedTempKey),
-        publicSigningKey: Array.from(transformKey.publicSigningKey),
-        signature: Array.from(transformKey.signature),
-        toPublicKey: publicKeyBytesToArray(transformKey.toPublicKey),
-    };
-}
+const transformKeyBytesToArray = (transformKey: TransformKey) => ({
+    encryptedTempKey: Array.from(transformKey.encryptedTempKey),
+    ephemeralPublicKey: publicKeyBytesToArray(transformKey.ephemeralPublicKey),
+    hashedTempKey: Array.from(transformKey.hashedTempKey),
+    publicSigningKey: Array.from(transformKey.publicSigningKey),
+    signature: Array.from(transformKey.signature),
+    toPublicKey: publicKeyBytesToArray(transformKey.toPublicKey),
+});
 
 /**
  * Convert the provided TransformKey object with array fields into the same object shape with Uint8Array fields
  */
-function transformKeyArrayToBytes(transformKey: any): TransformKey {
-    return {
-        toPublicKey: publicKeyArrayToBytes(transformKey.toPublicKey),
-        ephemeralPublicKey: publicKeyArrayToBytes(transformKey.ephemeralPublicKey),
-        encryptedTempKey: new Uint8Array(transformKey.encryptedTempKey),
-        hashedTempKey: new Uint8Array(transformKey.hashedTempKey),
-        publicSigningKey: new Uint8Array(transformKey.publicSigningKey),
-        signature: new Uint8Array(transformKey.signature),
-    };
-}
+const transformKeyArrayToBytes = (transformKey: any): TransformKey => ({
+    toPublicKey: publicKeyArrayToBytes(transformKey.toPublicKey),
+    ephemeralPublicKey: publicKeyArrayToBytes(transformKey.ephemeralPublicKey),
+    encryptedTempKey: new Uint8Array(transformKey.encryptedTempKey),
+    hashedTempKey: new Uint8Array(transformKey.hashedTempKey),
+    publicSigningKey: new Uint8Array(transformKey.publicSigningKey),
+    signature: new Uint8Array(transformKey.signature),
+});
 
 /**
  * JS shim that is necessary to convert types between the marshaling layer of Rust. Currently wasm-bindgen doens't support the ability to pass
@@ -121,7 +113,7 @@ export class Api256 {
     /**
      * Generate a Recrypt public and private key pair. Returns results as Uint8Arrays.
      */
-    generateKeyPair() {
+    generateKeyPair(): KeyPair {
         const {privateKey, publicKey} = this.api.generateKeyPair();
         return {
             privateKey: new Uint8Array(privateKey),
@@ -132,7 +124,7 @@ export class Api256 {
     /**
      * Generate an ed25519 signing key pair.
      */
-    generateEd25519KeyPair() {
+    generateEd25519KeyPair(): SigningKeyPair {
         const {privateKey, publicKey} = this.api.generateEd25519KeyPair();
         return {
             privateKey: new Uint8Array(privateKey),
@@ -143,28 +135,28 @@ export class Api256 {
     /**
      * Sign the provided message with the provided ed25519 private key.
      */
-    ed25519Sign(privateSigningKey: Uint8Array, message: Uint8Array) {
+    ed25519Sign(privateSigningKey: Uint8Array, message: Uint8Array): Uint8Array {
         return this.api.ed25519Sign(privateSigningKey, message);
     }
 
     /**
      * Verify that the provided signature matches the provided message and was signed with the private key associated to the provided public signing key
      */
-    ed25519Verify(publicSigningKey: Uint8Array, message: Uint8Array, signature: Uint8Array) {
+    ed25519Verify(publicSigningKey: Uint8Array, message: Uint8Array, signature: Uint8Array): boolean {
         return this.api.ed25519Verify(publicSigningKey, message, signature);
     }
 
     /**
      * Compute an ed25519 public key given its private key.
      */
-    computeEd25519PublicKey(privateSigningKey: Uint8Array) {
+    computeEd25519PublicKey(privateSigningKey: Uint8Array): Uint8Array {
         return this.api.computeEd25519PublicKey(privateSigningKey);
     }
 
     /**
      * Generate a new Recrypt plaintext
      */
-    generatePlaintext() {
+    generatePlaintext(): Uint8Array {
         return this.api.generatePlaintext();
     }
 
@@ -179,7 +171,7 @@ export class Api256 {
     /**
      * Compute the associated public key for the provided private key bytes.
      */
-    computePublicKey(privateKey: Uint8Array) {
+    computePublicKey(privateKey: Uint8Array): PublicKey {
         return publicKeyArrayToBytes(this.api.computePublicKey(privateKey));
     }
 
@@ -209,21 +201,21 @@ export class Api256 {
     /**
      * Decrypt the provided encrypted value using the provided private key and return the decrypted plaintext bytes as a Uint8Array.
      */
-    decrypt(encryptedValue: EncryptedValue, privateKey: Uint8Array) {
+    decrypt(encryptedValue: EncryptedValue, privateKey: Uint8Array): Uint8Array {
         return this.api.decrypt(this.encryptedValueBytesToArray(encryptedValue), privateKey);
     }
 
     /**
      * Derive the 32 byte symmetric key from the provided plaintext.
      */
-    deriveSymmetricKey(plaintext: Uint8Array) {
+    deriveSymmetricKey(plaintext: Uint8Array): Uint8Array {
         return this.api.deriveSymmetricKey(plaintext);
     }
 
     /**
      * Sign the provided message with the provided keypair using Schnorr signing. Returns a 64 byte signature.
      */
-    schnorrSign(privateKey: Uint8Array, publicKey: PublicKey, message: Uint8Array) {
+    schnorrSign(privateKey: Uint8Array, publicKey: PublicKey, message: Uint8Array): Uint8Array {
         return this.api.schnorrSign(privateKey, publicKeyBytesToArray(publicKey), message);
     }
 
@@ -232,14 +224,14 @@ export class Api256 {
      * well as the optional augmented private key.
      *
      */
-    schnorrVerify(publicKey: PublicKey, augmentedPrivateKey: Uint8Array | undefined, message: Uint8Array, signature: Uint8Array) {
+    schnorrVerify(publicKey: PublicKey, augmentedPrivateKey: Uint8Array | undefined, message: Uint8Array, signature: Uint8Array): boolean {
         return this.api.schnorrVerify(publicKeyBytesToArray(publicKey), augmentedPrivateKey as Uint8Array, message, signature);
     }
 
     /**
      * SHA256 hash the provided bytes
      */
-    hash256(bytes: Uint8Array) {
+    hash256(bytes: Uint8Array): Uint8Array {
         return this.api.hash256(bytes);
     }
 }
@@ -247,40 +239,44 @@ export class Api256 {
 /**
  * Convert the provided TransformKey object into a single Uint8Array of bytes in a consistent order
  */
-export function transformKeyToBytes256(transformKey: TransformKey) {
-    return Recrypt.transformKeyToBytes256(transformKeyBytesToArray(transformKey));
-}
+export const transformKeyToBytes256 = (transformKey: TransformKey): Uint8Array => Recrypt.transformKeyToBytes256(transformKeyBytesToArray(transformKey));
 
 /**
  * Augment the provided transform key object with the provided private key. Returns a new, augmented TransformKey
  */
-export function augmentTransformKey256(transformKey: TransformKey, privateKey: PrivateKey) {
-    const augmentedTransformKey = Recrypt.augmentTransformKey256(transformKeyBytesToArray(transformKey), privateKey);
-    return transformKeyArrayToBytes(augmentedTransformKey);
-}
+export const augmentTransformKey256 = (transformKey: TransformKey, privateKey: PrivateKey): TransformKey =>
+    transformKeyArrayToBytes(Recrypt.augmentTransformKey256(transformKeyBytesToArray(transformKey), privateKey));
 
 /**
  * Augment the provided public key object with another public key object. Returns the augmented PublicKey.
  */
-export function augmentPublicKey256(currentPublicKey: PublicKey, otherPublicKey: PublicKey) {
+export const augmentPublicKey256 = (currentPublicKey: PublicKey, otherPublicKey: PublicKey): PublicKey => {
     const augmentedKey = Recrypt.augmentPublicKey256(publicKeyBytesToArray(currentPublicKey), publicKeyBytesToArray(otherPublicKey));
     return publicKeyArrayToBytes(augmentedKey);
-}
+};
 
 /**
  * Create a derived 32-byte key from the provided password bytes.
  */
-export function pbkdf2SHA256(salt: Uint8Array, password: Uint8Array, iterations: number) {
-    return Recrypt.pbkdf2SHA256(salt, password, iterations);
-}
+export const pbkdf2SHA256 = (salt: Uint8Array, password: Uint8Array, iterations: number): Uint8Array => Recrypt.pbkdf2SHA256(salt, password, iterations);
+
+/**
+ * Create a new private key by adding together the provided private keys.
+ */
+export const addPrivateKeys = (privateKeyA: Uint8Array, privateKeyB: Uint8Array): Uint8Array => Recrypt.addPrivateKeys(privateKeyA, privateKeyB);
+
+/**
+ * Create a new private key by subtracting the provided private keys.
+ */
+export const subtractPrivateKeys = (privateKeyA: Uint8Array, privateKeyB: Uint8Array): Uint8Array => Recrypt.subtractPrivateKeys(privateKeyA, privateKeyB);
 
 /**
  * Method to let callers set the random 32 byte seed needed when instantiating the Api256 class. Lets this library work in MS Edge which
  * can't generate random numbers in a WebWorker.
  */
-export function setRandomSeed(seed: Uint8Array) {
+export const setRandomSeed = (seed: Uint8Array): void => {
     if (!(seed instanceof Uint8Array) || seed.length !== 32) {
         throw new Error("Provided random seed was not of the correct type or length.");
     }
-    return Recrypt.setRandomSeed(seed);
-}
+    Recrypt.setRandomSeed(seed);
+};

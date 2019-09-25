@@ -1,6 +1,6 @@
 [package]
 name = "recrypt-wasm-binding"
-version = "0.5.0"
+version = "0.5.1"
 authors = ["IronCore Labs <code@ironcorelabs.com>"]
 description = "Bindings to run recrypt-rs as a WebAssembly module."
 license = "AGPL-3.0-only"
@@ -17,9 +17,9 @@ js-sys = "~0.3"
 pbkdf2 = { version = "0.3", default-features = false }
 hmac = "0.7"
 sha2 = "0.8"
-serde_derive = "~1.0"
 rand = { version = "0.6", features = ["wasm-bindgen"] }
-recrypt = { version = "0.7", features = ["wasm"], default-features = false }
+serde_derive = "~1.0"
+recrypt = { version = "0.8.2", features = ["wasm"], default-features = false }
 
 [profile.dev]
 opt-level = 2 # Build deps with optimization, don't build ourselves with optimization
