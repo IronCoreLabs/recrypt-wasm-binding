@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.4
+
++ Upgrade `recrypt-rs` to 0.8.4
+
 ## 0.5.3
 
 + Upgrade `recrypt-rs` to 0.8.2
