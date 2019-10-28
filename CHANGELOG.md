@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.5
+
++ Consume latest `0.9` release of Recrypt to consume bug fix for `addPrivateKeys` and `subtractPrivateKeys` methods to correctly support PrivateKey rotation.
+
 ## 0.5.4
 
 + Upgrade `recrypt-rs` to 0.8.4
