@@ -377,7 +377,7 @@ dependencies = [
 
 [[package]]
 name = "recrypt-wasm-binding"
-version = "0.5.4"
+version = "0.5.5"
 dependencies = [
  "hmac 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "js-sys 0.3.29 (registry+https://github.com/rust-lang/crates.io-index)",
