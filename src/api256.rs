@@ -378,21 +378,21 @@ pub fn pbkdf2SHA256(salt: &[u8], password: &[u8], iterations: usize) -> Vec<u8> 
 }
 
 /**
- * Add the two provided private keys together and return a new PrivateKey.
+ * Add the two provided private keys together and return the bytes of a new PrivateKey.
  */
 #[wasm_bindgen]
 pub fn addPrivateKeys(private_key_a: &[u8], private_key_b: &[u8]) -> Result<Vec<u8>, JsError> {
     let pubKeyA = PrivateKey::new(util::slice_to_fixed_32_bytes(private_key_a, "privateKeyA"));
     let pubKeyB = PrivateKey::new(util::slice_to_fixed_32_bytes(private_key_b, "privateKeyB"));
-    Ok((pubKeyA + pubKeyB).bytes().to_vec())
+    Ok(pubKeyA.augment_plus(&pubKeyB).bytes().to_vec())
 }
 
 /**
- * Subtract the first provided private key from the second provided private key. Returns a new PrivateKey.
+ * Subtract the first provided private key from the second provided private key. Returns the bytes of a new PrivateKey.
  */
 #[wasm_bindgen]
 pub fn subtractPrivateKeys(private_key_a: &[u8], private_key_b: &[u8]) -> Result<Vec<u8>, JsError> {
     let pubKeyA = PrivateKey::new(util::slice_to_fixed_32_bytes(private_key_a, "privateKeyA"));
     let pubKeyB = PrivateKey::new(util::slice_to_fixed_32_bytes(private_key_b, "privateKeyB"));
-    Ok((pubKeyA - pubKeyB).bytes().to_vec())
+    Ok(pubKeyA.augment_minus(&pubKeyB).bytes().to_vec())
 }
