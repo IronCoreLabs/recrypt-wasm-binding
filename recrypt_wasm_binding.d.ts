@@ -39,6 +39,7 @@ export interface TransformKey {
 }
 export class Api256 {
     constructor();
+    subtractPrivateKeys(): Uint8Array;
     generateKeyPair(): KeyPair;
     generateEd25519KeyPair(): SigningKeyPair;
     ed25519Sign(signingPrivateKey: Uint8Array, message: Uint8Array): Signature;
