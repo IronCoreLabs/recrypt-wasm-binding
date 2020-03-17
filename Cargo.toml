@@ -17,9 +17,9 @@ js-sys = "~0.3"
 pbkdf2 = { version = "0.3", default-features = false }
 hmac = "0.7"
 sha2 = "0.8"
-rand = { version = "0.6", features = ["wasm-bindgen"] }
+rand = { version = "~0.7.3", features = ["wasm-bindgen"] }
 serde_derive = "~1.0"
-recrypt = { version = "0.9.0", features = ["wasm"], default-features = false }
+recrypt = { path = "../recrypt-rs", features = ["wasm"], default-features = false }
 
 [profile.dev]
 opt-level = 2 # Build deps with optimization, don't build ourselves with optimization

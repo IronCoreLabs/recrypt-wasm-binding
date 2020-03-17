@@ -102,6 +102,8 @@ import("../Api256Shim").then((Recrypt) => {
                     const plaintext = api.generatePlaintext();
                     expect(plaintext).to.be.a("Uint8Array");
                     expect(plaintext).to.have.lengthOf(384);
+                    const plaintext2 = api.generatePlaintext();
+                    expect(plaintext).to.not.deep.equal(plaintext2);
                 });
             });
 

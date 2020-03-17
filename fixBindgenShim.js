@@ -70,7 +70,7 @@ function replaceCryptoHeap(source) {
     return arg0; \
 `;
 
-    const updatedSource = source.replace(/const ret = getObject[(]arg0[)].crypto;\n*\s*return addHeapObject[(]ret[)];/, replacementCode);
+    const updatedSource = source.replace(/var ret = getObject[(]arg0[)].crypto;\n*\s*return addHeapObject[(]ret[)];/, replacementCode);
 
     if (updatedSource.includes("getObject(arg0).crypto")) {
         return Promise.reject(new Error("Replacement of window.crypto heap check failed!"));
@@ -91,7 +91,7 @@ function replaceRandomValuesHeap(source) {
     return arg0; \
 `;
 
-    const updatedSource = source.replace(/const ret = getObject[(]arg0[)].getRandomValues;\n*\s*return addHeapObject[(]ret[)];/, replacementCode);
+    const updatedSource = source.replace(/var ret = getObject[(]arg0[)].getRandomValues;\n*\s*return addHeapObject[(]ret[)];/, replacementCode);
 
     if (updatedSource.includes("getObject(arg0).getRandomValues;")) {
         return Promise.reject(new Error("Replacement of window.crypto.getRandomValues heap check failed!"));
@@ -113,7 +113,7 @@ export const setRandomSeed = (seed) => {\n\
 
     //prettier-ignore
     const getRandomValuesReplacementCode =
-    `const randBuffer = getArrayU8FromWasm(arg1, arg2);
+    `const randBuffer = getArrayU8FromWasm0(arg1, arg2);
     if(getObject(arg0) && typeof getObject(arg0).getRandomValues === "function") {
         getObject(arg0).getRandomValues(randBuffer);
     } else if(randomSeed instanceof Uint8Array && randomSeed.length === 32) {\n\
@@ -126,12 +126,15 @@ export const setRandomSeed = (seed) => {\n\
 
     const replacedSource = source
         //First replace the contents of the function to conditionally use the pre-set seed
-        .replace(/getObject[(]arg0[)][.]getRandomValues[(]getArrayU8FromWasm[(]arg1, arg2[)]{2};/, getRandomValuesReplacementCode)
+        .replace(/getObject[(]arg0[)][.]getRandomValues[(]getArrayU8FromWasm0[(]arg1, arg2[)]{2};/, getRandomValuesReplacementCode)
         //Then add our new method which lets us optionally set the seed
         .replace(/(export const __wbg_getRandomValues_[0-9a-f]+ = function[(]arg0, arg1)/, `${setRandomSeedFunction}\n\n$1`);
 
     if (!replacedSource.includes("export const setRandomSeed =")) {
         return Promise.reject(new Error("Failed to add setRandomSeed function to shim!"));
+    }
+    if (!replacedSource.includes("randomSeed = undefined")) {
+        return Promise.reject(new Error("Failed to replace __wbg_getRandomValues with getRandomValuesReplacementCode to shim!"));
     }
     return Promise.resolve(replacedSource);
 }
