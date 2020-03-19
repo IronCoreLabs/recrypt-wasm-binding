@@ -11,7 +11,7 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-wasm-bindgen = {version = "~0.2", features = ["serde-serialize"]}
+wasm-bindgen = { version = "~0.2", features = ["serde-serialize"] }
 serde = "~1.0"
 js-sys = "~0.3"
 pbkdf2 = { version = "0.3", default-features = false }
@@ -20,6 +20,7 @@ sha2 = "0.8"
 rand = { version = "~0.7.3", features = ["wasm-bindgen"] }
 serde_derive = "~1.0"
 recrypt = { path = "../recrypt-rs", features = ["wasm"], default-features = false }
+ironcore-search-helpers = "~0.1.0"
 
 [profile.dev]
 opt-level = 2 # Build deps with optimization, don't build ourselves with optimization

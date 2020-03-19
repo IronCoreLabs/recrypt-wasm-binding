@@ -271,6 +271,18 @@ export const addPrivateKeys = (privateKeyA: Uint8Array, privateKeyB: Uint8Array)
 export const subtractPrivateKeys = (privateKeyA: Uint8Array, privateKeyB: Uint8Array): Uint8Array => Recrypt.subtractPrivateKeys(privateKeyA, privateKeyB);
 
 /**
+ * Hashes all possible tri-grams for the given string. The values will be prefixed with the partitionId and salt before being hashed.
+ */
+export const generateHashesForString = (s: string, partitionId: string | undefined, salt: Uint8Array) => Recrypt.generateHashesForString(s, partitionId, salt);
+
+/**
+ * Hashes all possible tri-grams for the given string. The values will be prefixed with the partition_id and salt before
+ * being hashed. This function will also add some random entries to the result to not expose how many tri-grams were actually found.
+ */
+export const generateHashesForStringWithPadding = (s: string, partitionId: string | undefined, salt: Uint8Array) =>
+    Recrypt.generateHashesForStringWithPadding(s, partitionId, salt);
+
+/**
  * Method to let callers set the random 32 byte seed needed when instantiating the Api256 class. Lets this library work in MS Edge which
  * can't generate random numbers in a WebWorker.
  */

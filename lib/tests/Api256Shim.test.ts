@@ -549,6 +549,30 @@ import("../Api256Shim").then((Recrypt) => {
                 expect(() => Recrypt.setRandomSeed(new Uint8Array(31))).to.throw;
             });
         });
+
+        describe("generateHashesForString", () => {
+            it("generates valid hashes for string", () => {
+                const queryResult1 = Recrypt.generateHashesForString("ironcore labs", "red", new Uint8Array([1]));
+                const queryResult2 = Recrypt.generateHashesForString("ironcore laps", "red", new Uint8Array([1]));
+                const queryResult3 = Recrypt.generateHashesForString("ironcore labs", "bed", new Uint8Array([1]));
+                const queryResult4 = Recrypt.generateHashesForString("ironcore labs", "red", new Uint8Array([2]));
+
+                expect(queryResult1).to.be.a("Uint32Array");
+                expect(queryResult1).to.have.lengthOf(8);
+                expect(queryResult1).not.to.deep.equal(queryResult2);
+                expect(queryResult1).not.to.deep.equal(queryResult3);
+                expect(queryResult1).not.to.deep.equal(queryResult4);
+            });
+        });
+        describe("generateHashesForStringWithPadding", () => {
+            it("generates more hashes than without padding", () => {
+                const queryResult = Recrypt.generateHashesForString("ironcore labs", undefined, new Uint8Array([1]));
+                const dataResult = Recrypt.generateHashesForStringWithPadding("ironcore labs", undefined, new Uint8Array([1]));
+
+                expect(dataResult).to.have.length.be.above(8);
+                expect(Array.from(dataResult)).to.include.members(Array.from(queryResult));
+            });
+        });
     });
     mocha.checkLeaks();
     mocha.run();

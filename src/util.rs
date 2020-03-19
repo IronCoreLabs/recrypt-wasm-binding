@@ -1,9 +1,12 @@
 #![allow(non_snake_case)]
-use recrypt::api::{
-    AuthHash, Ed25519Signature, EncryptedMessage, EncryptedTempKey, EncryptedValue, HashedValue,
-    PrivateKey, PublicKey, PublicSigningKey, SigningKeypair, TransformBlock, TransformKey,
+use recrypt::{
+    api::{
+        AuthHash, Ed25519Signature, EncryptedMessage, EncryptedTempKey, EncryptedValue,
+        HashedValue, PrivateKey, PublicKey, PublicSigningKey, SigningKeypair, TransformBlock,
+        TransformKey,
+    },
+    nonemptyvec::NonEmptyVec,
 };
-use recrypt::nonemptyvec::NonEmptyVec;
 
 //Error handling to make it so we can get actual Error instances out of WASM when methods throw with actual messages
 pub type JsError = wasm_bindgen::prelude::JsValue;
