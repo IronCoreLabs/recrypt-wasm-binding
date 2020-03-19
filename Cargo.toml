@@ -19,7 +19,7 @@ hmac = "0.7"
 sha2 = "0.8"
 rand = { version = "~0.7.3", features = ["wasm-bindgen"] }
 serde_derive = "~1.0"
-recrypt = { path = "../recrypt-rs", features = ["wasm"], default-features = false }
+recrypt = { version = "~0.11.0", features = ["wasm"], default-features = false }
 ironcore-search-helpers = "~0.1.0"
 
 [profile.dev]
