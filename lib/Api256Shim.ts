@@ -273,13 +273,14 @@ export const subtractPrivateKeys = (privateKeyA: Uint8Array, privateKeyB: Uint8A
 /**
  * Hashes all possible tri-grams for the given string. The values will be prefixed with the partitionId and salt before being hashed.
  */
-export const generateHashesForString = (s: string, salt: Uint8Array, partitionId?: string) => Recrypt.generateHashesForString(s, salt, partitionId);
+export const generateHashesForString = (s: string, salt: Uint8Array, partitionId?: string): Uint32Array =>
+    Recrypt.generateHashesForString(s, salt, partitionId);
 
 /**
  * Hashes all possible tri-grams for the given string. The values will be prefixed with the partition_id and salt before
  * being hashed. This function will also add some random entries to the result to not expose how many tri-grams were actually found.
  */
-export const generateHashesForStringWithPadding = (s: string, salt: Uint8Array, partitionId?: string) =>
+export const generateHashesForStringWithPadding = (s: string, salt: Uint8Array, partitionId?: string): Uint32Array =>
     Recrypt.generateHashesForStringWithPadding(s, salt, partitionId);
 
 /**
