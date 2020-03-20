@@ -410,8 +410,8 @@ pub fn subtractPrivateKeys(private_key_a: &[u8], private_key_b: &[u8]) -> Result
 #[wasm_bindgen]
 pub fn generateHashesForString(
     s: String,
-    partition_id: Option<String>,
     salt: &[u8],
+    partition_id: Option<String>,
 ) -> Result<Vec<u32>, JsError> {
     Ok(
         generate_hashes_for_string(&s, partition_id.as_deref(), salt)
@@ -427,8 +427,8 @@ pub fn generateHashesForString(
 #[wasm_bindgen]
 pub fn generateHashesForStringWithPadding(
     s: String,
-    partition_id: Option<String>,
     salt: &[u8],
+    partition_id: Option<String>,
 ) -> Result<Vec<u32>, JsError> {
     let rng = Mutex::new(OsRng::default());
     Ok(

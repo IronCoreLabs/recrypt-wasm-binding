@@ -552,10 +552,10 @@ import("../Api256Shim").then((Recrypt) => {
 
         describe("generateHashesForString", () => {
             it("generates valid hashes for string", () => {
-                const queryResult1 = Recrypt.generateHashesForString("ironcore labs", "red", new Uint8Array([1]));
-                const queryResult2 = Recrypt.generateHashesForString("ironcore laps", "red", new Uint8Array([1]));
-                const queryResult3 = Recrypt.generateHashesForString("ironcore labs", "bed", new Uint8Array([1]));
-                const queryResult4 = Recrypt.generateHashesForString("ironcore labs", "red", new Uint8Array([2]));
+                const queryResult1 = Recrypt.generateHashesForString("ironcore labs", new Uint8Array([1]), "red");
+                const queryResult2 = Recrypt.generateHashesForString("ironcore laps", new Uint8Array([1]), "red");
+                const queryResult3 = Recrypt.generateHashesForString("ironcore labs", new Uint8Array([1]), "bed");
+                const queryResult4 = Recrypt.generateHashesForString("ironcore labs", new Uint8Array([2]), "red");
 
                 expect(queryResult1).to.be.a("Uint32Array");
                 expect(queryResult1).to.have.lengthOf(8);
@@ -566,8 +566,8 @@ import("../Api256Shim").then((Recrypt) => {
         });
         describe("generateHashesForStringWithPadding", () => {
             it("generates more hashes than without padding", () => {
-                const queryResult = Recrypt.generateHashesForString("ironcore labs", undefined, new Uint8Array([1]));
-                const dataResult = Recrypt.generateHashesForStringWithPadding("ironcore labs", undefined, new Uint8Array([1]));
+                const queryResult = Recrypt.generateHashesForString("ironcore labs", new Uint8Array([1]), undefined);
+                const dataResult = Recrypt.generateHashesForStringWithPadding("ironcore labs", new Uint8Array([1]), undefined);
 
                 expect(dataResult).to.have.length.be.above(8);
                 expect(Array.from(dataResult)).to.include.members(Array.from(queryResult));
