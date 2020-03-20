@@ -116,9 +116,12 @@ export const setRandomSeed = (seed) => {\n\
     `const randBuffer = getArrayU8FromWasm0(arg1, arg2);
     if(getObject(arg0) && typeof getObject(arg0).getRandomValues === "function") {
         getObject(arg0).getRandomValues(randBuffer);
-    } else if(randomSeed instanceof Uint8Array && randomSeed.length === 32) {\n\
-      randBuffer.set(randomSeed, 0);\n\
-      randomSeed = undefined;\n\
+    } else if(randomSeed instanceof Uint8Array && randomSeed.length >= 32) {\n\
+      randBuffer.set(randomSeed.slice(0, 32), 0);\n\
+      randomSeed = randomSeed.slice(32);
+      if(randomSeed.length < 32){
+        randomSeed = undefined;\n\
+      }
     } else {\n\
        throw new Error("No source of entropy found for generating random values.");\n\
     }\n\

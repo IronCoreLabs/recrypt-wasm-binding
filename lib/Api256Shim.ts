@@ -275,7 +275,7 @@ export const subtractPrivateKeys = (privateKeyA: Uint8Array, privateKeyB: Uint8A
  * can't generate random numbers in a WebWorker.
  */
 export const setRandomSeed = (seed: Uint8Array): void => {
-    if (!(seed instanceof Uint8Array) || seed.length !== 32) {
+    if (!(seed instanceof Uint8Array) || seed.length < 32) {
         throw new Error("Provided random seed was not of the correct type or length.");
     }
     Recrypt.setRandomSeed(seed);
