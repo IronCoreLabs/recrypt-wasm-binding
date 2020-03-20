@@ -3,9 +3,10 @@
 ## 0.5.6
 
 + Upgrade `recrypt-rs` to 0.11.0
-+ Expose two new functions for substring search.
-  + `generateHashesForString(s: string, salt: Uint8Array, partitionId?: string): Uint32Array`
-  + `generateHashesForStringWithPadding(s: string, salt: Uint8Array, partitionId?: string): Uint32Array`
++ Expose new class for performing encrypted search. New class is `EncryptedSearch` and contains two methods for substring search.
+  + `const encSearch = new Recrypt.EncryptedSearch();`
+  + `encSearch.generateHashesForString(s: string, salt: Uint8Array, partitionId?: string): Uint32Array`
+  + `encSearch.generateHashesForStringWithPadding(s: string, salt: Uint8Array, partitionId?: string): Uint32Array`
 
 ## 0.5.5
 
