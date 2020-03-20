@@ -62,3 +62,5 @@ export function pbkdf2SHA256(salt: Uint8Array, password: Uint8Array, iterations:
 export function addPrivateKeys(privateKeyA: Uint8Array, privateKeyB: Uint8Array): Uint8Array;
 export function subtractPrivateKeys(privateKeyA: Uint8Array, privateKeyB: Uint8Array): Uint8Array;
 export function setRandomSeed(seed: Uint8Array): void;
+export function generateHashesForString(s: string, salt: Uint8Array, partitionId?: string): Uint32Array;
+export function generateHashesForStringWithPadding(s: string, salt: Uint8Array, partitionId?: string): Uint32Array;
