@@ -324,8 +324,8 @@ pub struct EncryptedSearch {
 impl EncryptedSearch {
     #[wasm_bindgen(constructor)]
     pub fn new() -> EncryptedSearch {
-        // 1 MB
-        const BYTES_BEFORE_RESEEDING: u64 = 1 * 1024 * 1024;
+        // 10 MB
+        const BYTES_BEFORE_RESEEDING: u64 = 1024 * 1024 * 10;
         EncryptedSearch {
             rng: Mutex::new(ReseedingRng::new(
                 rand_chacha::ChaChaCore::from_entropy(),
@@ -339,8 +339,8 @@ impl EncryptedSearch {
      * Hashes all possible tri-grams for the given string. The values will be prefixed with the partition_id and salt before being hashed.
      */
     pub fn generateHashesForString(
-        &mut self,
-        s: String,
+        &self,
+        s: &str,
         salt: &[u8],
         partition_id: Option<String>,
     ) -> Result<Vec<u32>, JsError> {
@@ -356,8 +356,8 @@ impl EncryptedSearch {
      * being hashed. This function will also add some random entries to the result to not expose how many tri-grams were actually found.
      */
     pub fn generateHashesForStringWithPadding(
-        &mut self,
-        s: String,
+        &self,
+        s: &str,
         salt: &[u8],
         partition_id: Option<String>,
     ) -> Result<Vec<u32>, JsError> {
