@@ -55,6 +55,11 @@ export class Api256 {
     schnorrSign(privateKey: Uint8Array, publicKey: PublicKey, message: Uint8Array): Signature;
     schnorrVerify(publicKey: PublicKey, augmentedPrivateKey: Uint8Array | undefined, message: Uint8Array, signature: Signature): boolean;
 }
+export class EncryptedSearch {
+    constructor();
+    generateHashesForString(s: string, salt: Uint8Array, partitionId?: string): Uint32Array;
+    generateHashesForStringWithPadding(s: string, salt: Uint8Array, partitionId?: string): Uint32Array;
+}
 export function transformKeyToBytes256(transformKey: TransformKey): Uint8Array;
 export function augmentTransformKey256(transformKey: TransformKey, privateKey: PrivateKey): TransformKey;
 export function augmentPublicKey256(currentPublicKey: PublicKey, otherPublicKey: PublicKey): PublicKey;

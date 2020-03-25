@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.6
+
++ Upgrade `recrypt-rs` to 0.11.0
++ Expose new class for performing encrypted search. New class is `EncryptedSearch` and contains two methods for substring search.
+  + `const encSearch = new Recrypt.EncryptedSearch();`
+  + `encSearch.generateHashesForString(s: string, salt: Uint8Array, partitionId?: string): Uint32Array`
+  + `encSearch.generateHashesForStringWithPadding(s: string, salt: Uint8Array, partitionId?: string): Uint32Array`
+
 ## 0.5.5
 
 + Consume latest `0.9` release of Recrypt to consume bug fix for `addPrivateKeys` and `subtractPrivateKeys` methods to correctly support PrivateKey rotation.

@@ -2,13 +2,20 @@
 
 use crate::util::{self, JsError, WasmError};
 use hmac::Hmac;
-use pbkdf2::pbkdf2;
-use recrypt::api::{
-    DefaultRng, Ed25519, Ed25519Signature, Hashable, Plaintext, PrivateKey, PublicSigningKey,
-    RandomBytes, Recrypt, SchnorrSignature, Sha256, Sha256Hashing, SigningKeypair,
+use ironcore_search_helpers::{
+    generate_hashes_for_string, generate_hashes_for_string_with_padding,
 };
-use recrypt::prelude::*;
+use pbkdf2::pbkdf2;
+use rand::{rngs::adapter::ReseedingRng, SeedableRng};
+use recrypt::{
+    api::{
+        DefaultRng, Ed25519, Ed25519Signature, Hashable, Plaintext, PrivateKey, PublicSigningKey,
+        RandomBytes, Recrypt, SchnorrSignature, Sha256, Sha256Hashing, SigningKeypair,
+    },
+    prelude::*,
+};
 use sha2;
+use std::sync::Mutex;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -305,6 +312,60 @@ impl Api256 {
             &message.to_vec(),
             SchnorrSignature::new(util::slice_to_fixed_64_bytes(signature, "signature")),
         ))
+    }
+}
+
+#[wasm_bindgen]
+pub struct EncryptedSearch {
+    rng: Mutex<DefaultRng>,
+}
+
+#[wasm_bindgen]
+impl EncryptedSearch {
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> EncryptedSearch {
+        // 10 MB
+        const BYTES_BEFORE_RESEEDING: u64 = 1024 * 1024 * 10;
+        EncryptedSearch {
+            rng: Mutex::new(ReseedingRng::new(
+                rand_chacha::ChaChaCore::from_entropy(),
+                BYTES_BEFORE_RESEEDING,
+                rand::rngs::OsRng::default(),
+            )),
+        }
+    }
+
+    /**
+     * Hashes all possible tri-grams for the given string. The values will be prefixed with the partition_id and salt before being hashed.
+     */
+    pub fn generateHashesForString(
+        &self,
+        s: &str,
+        salt: &[u8],
+        partition_id: Option<String>,
+    ) -> Result<Vec<u32>, JsError> {
+        Ok(
+            generate_hashes_for_string(&s, partition_id.as_deref(), salt)
+                .map(|x| x.into_iter().collect::<Vec<_>>())
+                .map_err(WasmError::new)?,
+        )
+    }
+
+    /**
+     * Hashes all possible tri-grams for the given string. The values will be prefixed with the partition_id and salt before
+     * being hashed. This function will also add some random entries to the result to not expose how many tri-grams were actually found.
+     */
+    pub fn generateHashesForStringWithPadding(
+        &self,
+        s: &str,
+        salt: &[u8],
+        partition_id: Option<String>,
+    ) -> Result<Vec<u32>, JsError> {
+        Ok(
+            generate_hashes_for_string_with_padding(&s, partition_id.as_deref(), salt, &self.rng)
+                .map(|x| x.into_iter().collect::<Vec<_>>())
+                .map_err(WasmError::new)?,
+        )
     }
 }
 

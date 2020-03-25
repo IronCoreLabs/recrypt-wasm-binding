@@ -280,3 +280,8 @@ export const setRandomSeed = (seed: Uint8Array): void => {
     }
     Recrypt.setRandomSeed(seed);
 };
+
+/**
+ * Export the entire EncryptedSearch struct out directly. No need to shim this at any level.
+ */
+export const EncryptedSearch = Recrypt.EncryptedSearch;
