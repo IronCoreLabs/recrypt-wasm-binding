@@ -3,7 +3,7 @@
 use crate::util::{self, JsError, WasmError};
 use hmac::Hmac;
 use ironcore_search_helpers::{
-    generate_hashes_for_string, generate_hashes_for_string_with_padding,
+    generate_hashes_for_string, generate_hashes_for_string_with_padding, transliterate_string,
 };
 use pbkdf2::pbkdf2;
 use rand::{rngs::adapter::ReseedingRng, SeedableRng};
@@ -366,6 +366,12 @@ impl EncryptedSearch {
                 .map(|x| x.into_iter().collect::<Vec<_>>())
                 .map_err(WasmError::new)?,
         )
+    }
+
+    /// Generate a version of the input string where each character has been latinized using the
+    /// same function as our tokenization routines.
+    pub fn transliterateString(s: &str) -> String {
+        transliterate_string(s)
     }
 }
 

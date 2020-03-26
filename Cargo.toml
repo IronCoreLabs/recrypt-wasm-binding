@@ -1,6 +1,6 @@
 [package]
 name = "recrypt-wasm-binding"
-version = "0.5.6"
+version = "0.5.7"
 authors = ["IronCore Labs <code@ironcorelabs.com>"]
 description = "Bindings to run recrypt-rs as a WebAssembly module."
 license = "AGPL-3.0-only"
@@ -21,7 +21,7 @@ rand = { version = "~0.7.3", features = ["wasm-bindgen"] }
 rand_chacha = "~0.2.2"
 serde_derive = "~1.0"
 recrypt = { version = "~0.11.0", features = ["wasm"], default-features = false }
-ironcore-search-helpers = "~0.1.1"
+ironcore-search-helpers = "~0.1.2"
 
 [profile.dev]
 opt-level = 2
