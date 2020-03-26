@@ -59,6 +59,7 @@ export class EncryptedSearch {
     constructor();
     generateHashesForString(s: string, salt: Uint8Array, partitionId?: string): Uint32Array;
     generateHashesForStringWithPadding(s: string, salt: Uint8Array, partitionId?: string): Uint32Array;
+    static transliterateString(s: string): string;
 }
 export function transformKeyToBytes256(transformKey: TransformKey): Uint8Array;
 export function augmentTransformKey256(transformKey: TransformKey, privateKey: PrivateKey): TransformKey;
