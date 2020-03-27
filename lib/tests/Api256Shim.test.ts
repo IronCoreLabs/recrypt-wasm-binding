@@ -453,6 +453,14 @@ import("../Api256Shim").then((Recrypt) => {
                     expect(Array.from(dataResult)).to.include.members(Array.from(queryResult));
                 });
             });
+
+            describe("transliterateSTring", () => {
+                it("converts string to expected latinization", () => {
+                    expect(Recrypt.EncryptedSearch.transliterateString("Gumby, dammit!")).to.equal("gumby dammit");
+                    expect(Recrypt.EncryptedSearch.transliterateString("北亰")).to.equal("bei jing ");
+                    expect(Recrypt.EncryptedSearch.transliterateString("Æneid")).to.equal("aeneid");
+                });
+            });
         });
 
         describe("transformKeyToBytes256", () => {

@@ -46,10 +46,15 @@ const SOURCE_DIRECTORY = path.normalize(process.argv[2]);
 function removeNodeJSFunctions() {
     const shimJS = fs.readFileSync(`${SOURCE_DIRECTORY}/recrypt_wasm_binding.js`, "utf8");
 
-    //Replace the entire __wbg_require and randomFillSYnc method that is auto generated in the output
+    //Replace the entire __wbg_require and randomFillSync method that is auto generated in the output. Also tweak the lines that
+    //attempt to polyfill the TextEncoder/Decoder class from Node. We automatically polyfill that already.
     const codeWithoutNode = shimJS
         .replace(/\nexport const __wbg_require_[a-f0-9]* = function[(]arg0, arg1[)] {[^}]*};\n/, "")
-        .replace(/\nexport const __wbg_randomFillSync_[a-f0-9]* = function[(]arg0, arg1, arg2[)] {[^}]*};\n/, "");
+        .replace(/\nexport const __wbg_randomFillSync_[a-f0-9]* = function[(]arg0, arg1, arg2[)] {[^}]*};\n/, "")
+        .replace(/const lTextDecoder = [^\n]*/, "")
+        .replace(/const lTextEncoder = [^\n]*/, "")
+        .replace(/lTextDecoder/g, "TextDecoder")
+        .replace(/lTextEncoder/g, "TextEncoder");
 
     if (codeWithoutNode.includes("require(") || codeWithoutNode.includes("randomFillSync")) {
         throw new Error("Replacement of NodeJS import and/or randomFillSync functions failed!");
