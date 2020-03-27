@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.7
+
++ Upgrade `ironcore-search-helpers` to 0.1.2.
++ `Recrypt.EncryptedSearch.transliterateString` added to allow filtering of lists after encrypted search.
+
 ## 0.5.6
 
 + Upgrade `recrypt-rs` to 0.11.0
