@@ -21,8 +21,8 @@ before_script:
     - rustup component add rustfmt-preview
 script:
     - cargo fmt -- --check
-    - nvm install 8
-    - nvm use 8
+    - nvm install 12
+    - nvm use 12
     - yarn
     - yarn run compile
     - yarn test
