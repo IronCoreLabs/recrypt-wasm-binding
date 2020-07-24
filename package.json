@@ -11,6 +11,7 @@
         "pack": "wasm-pack build --scope ironcorelabs --no-typescript"
     },
     "devDependencies": {
+        "@types/source-map": "0.5.2",
         "html-webpack-plugin": "^4.3.0",
         "html-webpack-tags-plugin": "^2.0.17",
         "puppeteer": "^5.2.1",
