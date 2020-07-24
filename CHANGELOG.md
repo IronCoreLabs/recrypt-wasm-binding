@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.8
+
++ Upgrade all JS and Rust dependencies.
+
 ## 0.5.7
 
 + Upgrade `ironcore-search-helpers` to 0.1.2.
