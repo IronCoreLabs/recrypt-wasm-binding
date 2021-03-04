@@ -1,9 +1,9 @@
 # Recrypt WebAssembly Binding
 
-[![Build Status](https://travis-ci.org/IronCoreLabs/recrypt-wasm-binding.svg?branch=master)](https://travis-ci.org/IronCoreLabs/recrypt-wasm-binding)
+[![Build Status](https://travis-ci.org/IronCoreLabs/recrypt-wasm-binding.svg?branch=main)](https://travis-ci.org/IronCoreLabs/recrypt-wasm-binding)
 [![NPM Version](https://badge.fury.io/js/%40ironcorelabs%2Frecrypt-wasm-binding.svg)](https://www.npmjs.com/package/@ironcorelabs/recrypt-wasm-binding)
 
-This repository contains bindings to allow [Recrypt]((https://github.com/IronCoreLabs/recrypt-rs)) to be used as a WebAssembly module within the browser. It depends on [recrypt-rs](https://github.com/IronCoreLabs/recrypt-rs) as a dependency and contains shims both in Rust and JS to marshal data between WebAssembly and JavaScript. The bindings are generated using [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen).
+This repository contains bindings to allow [Recrypt](<(https://github.com/IronCoreLabs/recrypt-rs)>) to be used as a WebAssembly module within the browser. It depends on [recrypt-rs](https://github.com/IronCoreLabs/recrypt-rs) as a dependency and contains shims both in Rust and JS to marshal data between WebAssembly and JavaScript. The bindings are generated using [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen).
 
 ## Install
 
@@ -79,10 +79,10 @@ This library contains a [TypeScript definitions](index.d.ts) file which shows th
 
 A few things are required as dependencies locally before you're able to run the benchmarks and unit tests for this library.
 
-+ [Install Rust](https://www.rust-lang.org/en-US/install.html). You must have Rust installed in order to compile the Rust bindings to WASM
-+ Proper Rust target: Run `rustup target add wasm32-unknown-unknown` to add the `wasm32-unknown-unknown` target to Rust which is required to compile to WASM.
-+ Install `wasm-bindgen` via `cargo install wasm-bindgen-cli`.
-+ Run `yarn` from the root of this repo to install all JS dependencies.
+-   [Install Rust](https://www.rust-lang.org/en-US/install.html). You must have Rust installed in order to compile the Rust bindings to WASM
+-   Proper Rust target: Run `rustup target add wasm32-unknown-unknown` to add the `wasm32-unknown-unknown` target to Rust which is required to compile to WASM.
+-   Install `wasm-bindgen` via `cargo install wasm-bindgen-cli`.
+-   Run `yarn` from the root of this repo to install all JS dependencies.
 
 ## Compiling WebAssembly Module
 
@@ -100,11 +100,11 @@ Make sure you run `yarn run compile` first.
 
 Unit tests can be run in two ways
 
-+ `yarn test` will run the tests via the command line via Chrome Headless and report the results at the end.
-+ `yarn run testInBrowser` will startup a webpack server at [http://localhost:8080](http://localhost:8080) which you can visit to see the results of the test within the browser directly.
+-   `yarn test` will run the tests via the command line via Chrome Headless and report the results at the end.
+-   `yarn run testInBrowser` will startup a webpack server at [http://localhost:8080](http://localhost:8080) which you can visit to see the results of the test within the browser directly.
 
 ## License
 
 Recrypt-wasm-binding is licensed under the [GNU Affero General Public License](LICENSE). We also offer commercial licenses - [email](mailto:info@ironcorelabs.com) for more information.
 
-Copyright (c)  2018-present  IronCore Labs, Inc. All rights reserved.
+Copyright (c) 2021 IronCore Labs, Inc. All rights reserved.
