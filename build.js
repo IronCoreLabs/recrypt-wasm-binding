@@ -68,6 +68,6 @@ shell.exec(
     shouldPublish ? `git tag ${generatedPackageJson.version} && git push origin ${generatedPackageJson.version}` : "echo No git tag generated during dry run"
 );
 
-shell.exec(shouldPublish ? "npm publish --access public" : "npm publish --dry-run");
+shell.exec(shouldPublish ? "npm publish --access public" : "npm pack");
 
 shell.popd();
