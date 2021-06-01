@@ -270,16 +270,6 @@ export const addPrivateKeys = (privateKeyA: Uint8Array, privateKeyB: Uint8Array)
  */
 export const subtractPrivateKeys = (privateKeyA: Uint8Array, privateKeyB: Uint8Array): Uint8Array => Recrypt.subtractPrivateKeys(privateKeyA, privateKeyB);
 
-/**
- * Method to let callers set the random 32 byte seed needed when instantiating the Api256 class. Lets this library work in MS Edge which
- * can't generate random numbers in a WebWorker.
- */
-export const setRandomSeed = (seed: Uint8Array): void => {
-    if (!(seed instanceof Uint8Array) || seed.length < 32) {
-        throw new Error("Provided random seed was not of the correct type or length.");
-    }
-    Recrypt.setRandomSeed(seed);
-};
 
 /**
  * Export the entire EncryptedSearch struct out directly. No need to shim this at any level.

@@ -78,12 +78,12 @@ pub struct JsEncryptedValue {
 macro_rules! slice_to_fixed_bytes { ($($fn_name: ident, $slice_type: ty, $n: expr); *) => {
     $(pub fn $fn_name(slice: $slice_type, field_name: &str) -> [u8; $n]{
         if slice.len() != $n {
-            panic!(format!(
+            panic!(
                 "Provided value for '{}' is not of expected size of {} bytes. Instead got {} bytes.",
                 field_name,
                 $n,
                 slice.len()
-            ));
+            );
         }
         let mut fixed_length: [u8; $n] = [0; $n];
         fixed_length.copy_from_slice(slice);

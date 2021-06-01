@@ -568,22 +568,6 @@ import("../Api256Shim").then((Recrypt) => {
             });
         });
 
-        describe("setRandomSeed", () => {
-            it("exists and doesnt throw", () => {
-                expect(() => Recrypt.setRandomSeed(new Uint8Array(32))).not.to.throw;
-                expect(() => Recrypt.setRandomSeed(new Uint8Array(128))).not.to.throw;
-                expect(() => Recrypt.setRandomSeed(new Uint8Array(33))).not.to.throw;
-            });
-
-            it("throws when wrong type or wrong size", () => {
-                expect(() => Recrypt.setRandomSeed("foo" as any)).to.throw;
-                expect(() => Recrypt.setRandomSeed({} as any)).to.throw;
-                expect(() => Recrypt.setRandomSeed([] as any)).to.throw;
-
-                expect(() => Recrypt.setRandomSeed(new Uint8Array(0))).to.throw;
-                expect(() => Recrypt.setRandomSeed(new Uint8Array(31))).to.throw;
-            });
-        });
     });
     mocha.checkLeaks();
     mocha.run();
