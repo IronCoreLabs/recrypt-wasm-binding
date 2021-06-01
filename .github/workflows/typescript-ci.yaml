@@ -21,7 +21,7 @@ jobs:
     - uses: actions-rs/toolchain@v1
       with:
         profile: minimal
-        toolchain: ${{ matrix.toolchain }}
+        toolchain: stable
         override: true
         target: wasm32-unknown-unknown
     - uses: actions-rs/install@v0.1
