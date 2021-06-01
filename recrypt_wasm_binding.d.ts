@@ -67,4 +67,3 @@ export function augmentPublicKey256(currentPublicKey: PublicKey, otherPublicKey:
 export function pbkdf2SHA256(salt: Uint8Array, password: Uint8Array, iterations: number): Uint8Array;
 export function addPrivateKeys(privateKeyA: Uint8Array, privateKeyB: Uint8Array): Uint8Array;
 export function subtractPrivateKeys(privateKeyA: Uint8Array, privateKeyB: Uint8Array): Uint8Array;
-export function setRandomSeed(seed: Uint8Array): void;
