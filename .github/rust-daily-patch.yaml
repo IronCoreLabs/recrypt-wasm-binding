@@ -1,0 +1,9 @@
+- op: add
+  path: /jobs/cargo-check/steps/1/with/target
+  value: wasm32-unknown-unknown
+- op: add
+  path: /jobs/cargo-check/steps/2
+  value:
+      uses: actions-rs/install@v0.1
+      with:
+          crate: wasm-bindgen-cli

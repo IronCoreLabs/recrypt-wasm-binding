@@ -1,0 +1,15 @@
+- op: add
+  path: /jobs/test/steps/1
+  value:
+      uses: actions-rs/toolchain@v1
+      with:
+          profile: minimal
+          toolchain: ${{ matrix.toolchain }}
+          override: true
+          target: wasm32-unknown-unknown
+- op: add
+  path: /jobs/test/steps/2
+  value:
+      uses: actions-rs/install@v0.1
+      with:
+          crate: wasm-bindgen-cli
