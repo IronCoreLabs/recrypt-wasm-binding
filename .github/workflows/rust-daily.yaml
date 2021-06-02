@@ -23,9 +23,12 @@ jobs:
         toolchain: ${{ matrix.toolchain }}
         override: true
         target: wasm32-unknown-unknown
-    - uses: actions-rs/install@v0.1
+    - uses: IronCoreLabs/rust-install@v0.1.0
       with:
         crate: wasm-bindgen-cli
+        accesskey: AKIAU2WBY6VDTC563V7G
+        secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
+        os: ubuntu-20.04
     - uses: Swatinem/rust-cache@v1
       id: rust-cache
     - name: Install sccache
@@ -33,7 +36,7 @@ jobs:
       uses: IronCoreLabs/rust-install@v0.1.0
       with:
         crate: sccache
-        accesskey: ${{ secrets.TOOL_CACHE_KEY_ID }}
+        accesskey: AKIAU2WBY6VDTC563V7G
         secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
         os: ubuntu-20.04
         version: latest

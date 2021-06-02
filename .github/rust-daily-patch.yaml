@@ -4,6 +4,9 @@
 - op: add
   path: /jobs/cargo-check/steps/2
   value:
-      uses: actions-rs/install@v0.1
+      uses: IronCoreLabs/rust-install@v0.1.0
       with:
           crate: wasm-bindgen-cli
+          accesskey: AKIAU2WBY6VDTC563V7G
+          secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
+          os: ubuntu-20.04
