@@ -10,7 +10,6 @@ import transformLevelTwo from "./transformLevelTwo";
 import decryptLevelZero from "./decryptLevelZero";
 import decryptLevelOne from "./decryptLevelOne";
 import decryptLevelTwo from "./decryptLevelTwo";
-import pbkdf2SHA256 from "./pbkdf2SHA256";
 
 const resultsDiv = document.createElement("div");
 document.body.appendChild(resultsDiv);
@@ -39,7 +38,6 @@ import("../lib/Api256Shim").then((Recrypt) => {
     const decryptLevelZeroBenchmark = decryptLevelZero(Recrypt, logBenchmarkResult);
     const decryptLevelOneBenchmark = decryptLevelOne(Recrypt, logBenchmarkResult);
     const decryptLevelTwoBenchmark = decryptLevelTwo(Recrypt, logBenchmarkResult);
-    const pbkdf2SHA256Benchmark = pbkdf2SHA256(Recrypt, logBenchmarkResult);
 
     genKeyPairBenchmark.on("complete", () => {
         genEd25519KeyPairbenchmark.run({async: true});
@@ -86,10 +84,6 @@ import("../lib/Api256Shim").then((Recrypt) => {
     });
 
     decryptLevelTwoBenchmark.on("complete", () => {
-        pbkdf2SHA256Benchmark.run({async: true});
-    });
-
-    pbkdf2SHA256Benchmark.on("complete", () => {
         logBenchmarkResult("Benchmark Complete");
     });
 
