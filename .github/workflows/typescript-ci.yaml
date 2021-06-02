@@ -37,9 +37,3 @@ jobs:
       run: yarn run compile
     - name: Run tests
       run: yarn run test
-    - name: Check test coverage
-      if: github.base_ref != ''
-      uses: anuraag016/Jest-Coverage-Diff@V1.1
-      with:
-        fullCoverageDiff: false
-        delta: 0.2
