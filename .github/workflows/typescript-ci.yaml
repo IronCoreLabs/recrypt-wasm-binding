@@ -24,9 +24,12 @@ jobs:
         toolchain: stable
         override: true
         target: wasm32-unknown-unknown
-    - uses: actions-rs/install@v0.1
+    - uses: IronCoreLabs/rust-install@v0.1.0
       with:
         crate: wasm-bindgen-cli
+        accesskey: ${{ secrets.TOOL_CACHE_KEY_ID }}
+        secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
+        os: ubuntu-20.04
     - uses: c-hive/gha-yarn-cache@v1
     - uses: actions/setup-node@v2.1.5
       with:
