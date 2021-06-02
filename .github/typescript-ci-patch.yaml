@@ -14,9 +14,7 @@
       with:
           crate: wasm-bindgen-cli
 - op: add
-  path: /jobs/test/steps/3
+  path: /jobs/test/steps/6
   value:
-      run: |
-          sudo apt-get update
-          sudo apt-get --only-upgrade install google-chrome-stable
-          google-chrome --version
+      name: Compile
+      run: yarn run compile

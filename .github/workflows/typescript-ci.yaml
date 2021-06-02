@@ -27,19 +27,14 @@ jobs:
     - uses: actions-rs/install@v0.1
       with:
         crate: wasm-bindgen-cli
-    - run: 'sudo apt-get update
-
-        sudo apt-get --only-upgrade install google-chrome-stable
-
-        google-chrome --version
-
-        '
     - uses: c-hive/gha-yarn-cache@v1
     - uses: actions/setup-node@v2.1.5
       with:
         node-version: ${{ matrix.node_version }}
     - name: Install modules
       run: yarn
+    - name: Compile
+      run: yarn run compile
     - name: Run tests
       run: yarn run test
     - name: Check test coverage
