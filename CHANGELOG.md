@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0
+
++ Removed `setRandomSeed` and `pbkdf2SHA256` from `recrypt_wasm_binding.d.ts` and related places. These were only needed for Edge Legacy and IE11 which are no longer supported by recrypt-wasm-binding.
++ Removed support for MS Edge Legacy (version <= 44) as Microsoft has ended support for Edge Legacy
++ Prep for Rust 2021 Edition
+
 ## 0.5.8
 
 + Upgrade all JS and Rust dependencies.
