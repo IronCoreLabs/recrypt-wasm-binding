@@ -43,9 +43,6 @@ shell.exec("yarn run pack");
 shell.exec("rm ./pkg/.gitignore");
 fs.writeFileSync("./pkg/.npmignore", "");
 
-//Run our shim fix script on the files in the ./pkg directory
-shell.exec("node fixBindgenShim.js ./pkg");
-
 //Move our manually written TS types into the distribution folder
 shell.cp("./recrypt_wasm_binding.d.ts", "./pkg");
 

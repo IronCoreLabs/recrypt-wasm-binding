@@ -1,6 +1,6 @@
 [package]
 name = "recrypt-wasm-binding"
-version = "0.5.8"
+version = "0.6.0"
 authors = ["IronCore Labs <code@ironcorelabs.com>"]
 description = "Bindings to run recrypt-rs as a WebAssembly module."
 license = "AGPL-3.0-only"
@@ -11,8 +11,8 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-wasm-bindgen = { version = "~0.2", features = ["serde-serialize"] }
-serde = "~1.0"
+wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
+serde = "1"
 js-sys = "~0.3"
 pbkdf2 = { version = "0.4", default-features = false }
 hmac = "0.8"

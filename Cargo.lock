@@ -447,7 +447,7 @@ dependencies = [
 
 [[package]]
 name = "recrypt-wasm-binding"
-version = "0.5.8"
+version = "0.6.0"
 dependencies = [
  "hmac",
  "ironcore-search-helpers",
