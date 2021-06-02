@@ -13,3 +13,10 @@
       uses: actions-rs/install@v0.1
       with:
           crate: wasm-bindgen-cli
+- op: add
+  path: /jobs/test/steps/3
+  value:
+      run: |
+          sudo apt-get update
+          sudo apt-get --only-upgrade install google-chrome-stable
+          google-chrome --version
