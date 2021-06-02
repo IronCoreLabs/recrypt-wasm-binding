@@ -13,15 +13,12 @@ crate-type = ["cdylib"]
 [dependencies]
 wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
 serde = "1"
-js-sys = "~0.3"
-pbkdf2 = { version = "0.4", default-features = false }
-hmac = "0.8"
-sha2 = "0.9"
-rand = { version = "~0.7.3", features = ["wasm-bindgen"] }
-rand_chacha = "~0.2.2"
-serde_derive = "~1.0"
-recrypt = { version = "~0.11.0", features = ["wasm"], default-features = false }
-ironcore-search-helpers = "~0.1.2"
+js-sys = "0.3"
+rand = { version = "0.7", features = ["wasm-bindgen"] }
+rand_chacha = "0.2"
+serde_derive = "1"
+recrypt = { version = "0.12", features = ["wasm"], default-features = false }
+ironcore-search-helpers = "0.1"
 
 [profile.dev]
 opt-level = 2

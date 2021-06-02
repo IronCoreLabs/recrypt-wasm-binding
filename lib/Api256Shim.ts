@@ -256,11 +256,6 @@ export const augmentPublicKey256 = (currentPublicKey: PublicKey, otherPublicKey:
 };
 
 /**
- * Create a derived 32-byte key from the provided password bytes.
- */
-export const pbkdf2SHA256 = (salt: Uint8Array, password: Uint8Array, iterations: number): Uint8Array => Recrypt.pbkdf2SHA256(salt, password, iterations);
-
-/**
  * Create a new private key by adding together the provided private keys.
  */
 export const addPrivateKeys = (privateKeyA: Uint8Array, privateKeyB: Uint8Array): Uint8Array => Recrypt.addPrivateKeys(privateKeyA, privateKeyB);
