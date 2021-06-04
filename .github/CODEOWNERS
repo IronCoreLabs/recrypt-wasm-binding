@@ -1,0 +1,5 @@
+* @IronCoreLabs/rust-dev
+**.js @IronCoreLabs/js-dev
+**.ts @IronCoreLabs/js-dev
+/yarn.lock @IronCoreLabs/js-dev
+/.github/ @IronCoreLabs/ops
