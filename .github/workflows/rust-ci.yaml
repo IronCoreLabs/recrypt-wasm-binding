@@ -14,63 +14,6 @@ name: Rust CI
 env:
   MIN_COVERAGE: '24'
 jobs:
-  cargo-test:
-    runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        rust_version:
-        - beta
-        do_test:
-        - false
-        include:
-        - rust_version: stable
-          do_test: true
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: ${{ matrix.rust_version }}
-        override: true
-        target: wasm32-unknown-unknown
-    - uses: IronCoreLabs/rust-install@v0.1.0
-      with:
-        crate: wasm-bindgen-cli
-        accesskey: AKIAU2WBY6VDTC563V7G
-        secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
-        os: ubuntu-20.04
-    - uses: Swatinem/rust-cache@v1
-      id: rust-cache
-    - name: Install sccache
-      if: steps.rust-cache.outputs.cache-hit != 'true'
-      uses: IronCoreLabs/rust-install@v0.1.0
-      with:
-        crate: sccache
-        accesskey: AKIAU2WBY6VDTC563V7G
-        secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
-        os: ubuntu-20.04
-        version: latest
-    - name: Setup sccache env variables
-      if: steps.rust-cache.outputs.cache-hit != 'true'
-      run: 'echo "CC=$(which cc)" >> $GITHUB_ENV
-
-        echo "RUSTC_WRAPPER=$HOME/.cargo/bin/sccache" >> $GITHUB_ENV
-
-        echo "AWS_ACCESS_KEY_ID=AKIAU2WBY6VDVHUO5WSN" >> $GITHUB_ENV
-
-        echo "AWS_SECRET_ACCESS_KEY=${{ secrets.SCCACHE_AWS_SECRET }}" >> $GITHUB_ENV
-
-        echo "SCCACHE_BUCKET=sccache-rust" >> $GITHUB_ENV
-
-        echo "SCCACHE_S3_USE_SSL=true" >> $GITHUB_ENV
-
-        '
-    - run: cargo build ${{ matrix.build_args }}
-    - if: matrix.do_test
-      run: cargo test ${{ matrix.test_args }}
-    - name: Print sccache stats
-      if: steps.rust-cache.outputs.cache-hit != 'true'
-      run: sccache -s
   format:
     runs-on: ubuntu-20.04
     steps:

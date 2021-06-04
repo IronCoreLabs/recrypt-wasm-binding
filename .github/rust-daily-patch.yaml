@@ -10,3 +10,8 @@
           accesskey: AKIAU2WBY6VDTC563V7G
           secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
           os: ubuntu-20.04
+# Run cargo update so our lock file's wasm-bindgen matches the latest wasm-bindgen-cli
+- op: add
+  path: /jobs/cargo-check/steps/6
+  value:
+      run: cargo update
