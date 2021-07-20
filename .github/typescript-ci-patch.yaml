@@ -23,4 +23,4 @@
       run: yarn run compile
 # Coverage doesn't work for this repo
 - op: remove
-  path: /jobs/test/steps/8
+  path: /jobs/test/steps/7
