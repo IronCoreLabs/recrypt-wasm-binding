@@ -36,7 +36,7 @@ jobs:
         cache: yarn
     - name: Install modules
       run: yarn
-    - name: Run tests
-      run: yarn run test
     - name: Compile
       run: yarn run compile
+    - name: Run tests
+      run: yarn run test

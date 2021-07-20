@@ -17,7 +17,7 @@
           secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
           os: ubuntu-20.04
 - op: add
-  path: /jobs/test/steps/6
+  path: /jobs/test/steps/5
   value:
       name: Compile
       run: yarn run compile
