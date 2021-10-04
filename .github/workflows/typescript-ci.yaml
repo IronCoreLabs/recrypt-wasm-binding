@@ -37,6 +37,6 @@ jobs:
     - name: Install modules
       run: yarn
     - name: Compile
-      run: yarn run compile
+      run: cargo update && yarn run compile
     - name: Run tests
       run: yarn run test

@@ -20,7 +20,7 @@
   path: /jobs/test/steps/5
   value:
       name: Compile
-      run: yarn run compile
+      run: cargo update && yarn run compile
 # Coverage doesn't work for this repo
 - op: remove
   path: /jobs/test/steps/7
