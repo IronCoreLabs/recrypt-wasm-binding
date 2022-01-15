@@ -15,7 +15,7 @@
         "html-webpack-plugin": "^4.3.0",
         "html-webpack-tags-plugin": "^2.0.17",
         "puppeteer": "^5.2.1",
-        "shelljs": "^0.8.4",
+        "shelljs": "^0.8.5",
         "text-encoding": "^0.7.0",
         "ts-loader": "^8.0.1",
         "typescript": "^3.9.7",
