@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script is copied from the depot repo; edit it there, not in the destination repo.
+
 # Copy the requested templates from the templates repo to this one, applying patches as we go.
 # You must be in the target repo when you run this, and depot must be checked out as a sibling to this repo.
 
@@ -39,6 +41,9 @@ for WF in ${WORKFLOWS} ; do
     BASE=$(basename "${WF}" .yaml)
     YAMLPATCH=".github/${BASE}-patch.yaml"
     JSONPATCH="/tmp/${BASE}-patch.json"
+
+    # Remove the target files before creating them from scratch. This lets us handle file renames and deletes.
+    rm -f "${THISREPO}"/.github/"${BASE}".*
 
     # Copy the workflow file, using jsonpatch.
     (

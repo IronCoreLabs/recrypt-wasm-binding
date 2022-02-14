@@ -7,9 +7,13 @@ name: Bump Version
   push:
     branches:
     - main
-  workflow_dispatch: null
+  workflow_dispatch:
+    inputs:
+      version:
+        description: New semver release version.
 env:
   COMMIT_PREFIX: 'bump-version: '
+  MODE: release
 jobs:
   vars:
     runs-on: ubuntu-20.04
@@ -34,25 +38,15 @@ jobs:
         git config --global user.name "Leeroy Travis"
 
         '
+    - name: Get version
+      id: current
+      run: echo "::set-output name=version::$(.github/bump-version.get.sh)"
     - name: Compute versions
       id: versions
-      run: 'set -x
-
-        VERSION=$(.github/bump-version.sh)
-
-        echo "::set-output name=old::${VERSION}"
-
-        VERSION="${VERSION/-*}"
-
-        echo "::set-output name=release::${VERSION}"
-
-        VERSION="$(echo "${VERSION}" | awk -F. -v OFS=. ''{$NF += 1 ; print}'')-pre"
-
-        echo "::set-output name=bumped::${VERSION}"
-
-        '
+      run: .github/bump-version.bump.sh "${{ env.MODE }}" "${{ steps.current.outputs.version
+        }}" ${{ github.event.inputs.version }}
     - name: Set release version
-      run: '.github/bump-version.sh "${{ steps.versions.outputs.release }}"
+      run: '.github/bump-version.set.sh "${{ steps.versions.outputs.release }}"
 
         git diff --cached
 
@@ -78,14 +72,14 @@ jobs:
         token: ${{ secrets.WORKFLOW_PAT }}
         prerelease: true
         tag: ${{ steps.versions.outputs.release }}
-    - name: Bump version and set pre-release
-      run: '.github/bump-version.sh "${{ steps.versions.outputs.bumped }}"
+    - name: Set development version
+      run: '.github/bump-version.set.sh "${{ steps.versions.outputs.bumped }}"
 
         git diff --cached
 
         '
-    - name: Commit and push pre-release version
-      run: 'git commit -m "${COMMIT_PREFIX}Bump to next pre-release version ${{ steps.versions.outputs.bumped
+    - name: Commit and push development version
+      run: 'git commit -m "${COMMIT_PREFIX}Bump to next development version ${{ steps.versions.outputs.bumped
         }}"
 
         git push origin main
