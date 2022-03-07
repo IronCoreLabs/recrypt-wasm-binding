@@ -17,7 +17,7 @@ jobs:
         node_version:
         - '14'
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: actions-rs/toolchain@v1
       with:
         profile: minimal
@@ -30,7 +30,7 @@ jobs:
         accesskey: AKIAU2WBY6VDTC563V7G
         secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
         os: ubuntu-20.04
-    - uses: actions/setup-node@v2
+    - uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node_version }}
         cache: yarn
