@@ -8,7 +8,7 @@ module.exports = {
             webpackConfig.experiments = {
                 asyncWebAssembly: true,
                 lazyCompilation: true,
-                syncWebAssembly: false,
+                syncWebAssembly: true,
                 topLevelAwait: true,
             };
             webpackConfig.resolve.fallback = {

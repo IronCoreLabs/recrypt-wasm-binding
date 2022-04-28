@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import * as Recrypt from "@ironcorelabs/recrypt-wasm-binding";
 import "./App.css";
 
 // helpers
@@ -16,31 +16,23 @@ const arrayEq = (a, b) => {
 
 // example CRA usage
 function App() {
-    const [recryptApi, setApi] = useState(null);
+    const recryptApi = new Recrypt.Api256();
 
-    useEffect(() => {
-        const importRecrypt = async () => {
-            const Recrypt = await import("@ironcorelabs/recrypt-wasm-binding");
-            setApi(new Recrypt.Api256());
-        };
-        importRecrypt();
-    }, []);
+    //Generate both a user key pair and a signing key pair
+    const keys = recryptApi.generateKeyPair();
+    const signingKeys = recryptApi.generateEd25519KeyPair();
 
-    const getElement = () => {
-        if (recryptApi !== null) {
-            //Generate both a user key pair and a signing key pair
-            const keys = recryptApi.generateKeyPair();
-            const signingKeys = recryptApi.generateEd25519KeyPair();
+    //Generate a plaintext to encrypt
+    const plaintext = recryptApi.generatePlaintext();
 
-            //Generate a plaintext to encrypt
-            const plaintext = recryptApi.generatePlaintext();
+    //Encrypt the data to the public key and then attempt to decrypt with the private key
+    const ciphertext = recryptApi.encrypt(plaintext, keys.publicKey, signingKeys.privateKey);
+    const decrypted = recryptApi.decrypt(ciphertext, keys.privateKey);
+    const roundtripped = arrayEq(plaintext, decrypted);
 
-            //Encrypt the data to the public key and then attempt to decrypt with the private key
-            const ciphertext = recryptApi.encrypt(plaintext, keys.publicKey, signingKeys.privateKey);
-            const decrypted = recryptApi.decrypt(ciphertext, keys.privateKey);
-            const roundtripped = arrayEq(plaintext, decrypted);
-
-            return (
+    return (
+        <div className="App">
+            <header className="App-header">
                 <div>
                     Each value is the base64 encoded representation of the given byte array.
                     <p>plaintext: {toBase64(plaintext)}</p>
@@ -48,15 +40,7 @@ function App() {
                     <p>decrypted: {toBase64(decrypted)}</p>
                     <p style={{color: roundtripped ? "green" : "red"}}>{roundtripped ? "plaintext === decrypted" : "plaintext !== decrypted"}</p>
                 </div>
-            );
-        } else {
-            return <div>Loading...</div>;
-        }
-    };
-
-    return (
-        <div className="App">
-            <header className="App-header">{getElement()}</header>
+            </header>
         </div>
     );
 }
