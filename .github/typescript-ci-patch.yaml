@@ -10,17 +10,25 @@
 - op: add
   path: /jobs/test/steps/2
   value:
-      uses: IronCoreLabs/rust-install@v0.1.0
-      with:
-          crate: wasm-bindgen-cli
-          accesskey: AKIAU2WBY6VDTC563V7G
-          secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
-          os: ubuntu-20.04
+    uses: IronCoreLabs/rust-install@v0.1.0
+    with:
+      crate: wasm-bindgen-cli
+      accesskey: AKIAU2WBY6VDTC563V7G
+      secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
+      os: ubuntu-20.04
+
+- op: test
+  path: /jobs/test/steps/5/name
+  value: Run tests
 - op: add
   path: /jobs/test/steps/5
   value:
-      name: Compile
-      run: cargo update && yarn run compile
+    name: Compile
+    run: cargo update && yarn run compile
+
 # Coverage doesn't work for this repo
+- op: test
+  path: /jobs/test/steps/7/name
+  value: Check test coverage
 - op: remove
   path: /jobs/test/steps/7
