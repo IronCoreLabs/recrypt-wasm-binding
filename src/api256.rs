@@ -341,11 +341,9 @@ impl EncryptedSearch {
         salt: &[u8],
         partition_id: Option<String>,
     ) -> Result<Vec<u32>, JsError> {
-        Ok(
-            generate_hashes_for_string(s, partition_id.as_deref(), salt)
-                .map(|x| x.into_iter().collect::<Vec<_>>())
-                .map_err(WasmError::new)?,
-        )
+        Ok(generate_hashes_for_string(s, partition_id.as_deref(), salt)
+            .map(|x| x.into_iter().collect::<Vec<_>>())
+            .map_err(WasmError::new)?)
     }
 
     /**

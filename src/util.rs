@@ -224,9 +224,7 @@ pub fn transform_blocks_to_js_object(
         .map(|block| JsTransformBlock {
             publicKey: public_key_to_js_object(*block.public_key()),
             encryptedTempKey: block.encrypted_temp_key().bytes().to_vec(),
-            randomTransformPublicKey: public_key_to_js_object(
-                *block.random_transform_public_key(),
-            ),
+            randomTransformPublicKey: public_key_to_js_object(*block.random_transform_public_key()),
             randomTransformEncryptedTempKey: block
                 .encrypted_random_transform_temp_key()
                 .bytes()
