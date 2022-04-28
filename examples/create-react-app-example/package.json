@@ -1,0 +1,38 @@
+{
+    "name": "create-react-app-example",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@craco/craco": "^6.4.3",
+        "@ironcorelabs/recrypt-wasm-binding": "^0.6.0",
+        "react": "^18.1.0",
+        "react-dom": "^18.1.0",
+        "react-scripts": "5.0.1"
+    },
+    "scripts": {
+        "start": "craco start",
+        "build": "craco build",
+        "test": "craco test"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "wasm-loader": "^1.3.0"
+    }
+}

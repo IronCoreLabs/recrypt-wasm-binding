@@ -342,7 +342,7 @@ impl EncryptedSearch {
         partition_id: Option<String>,
     ) -> Result<Vec<u32>, JsError> {
         Ok(
-            generate_hashes_for_string(&s, partition_id.as_deref(), salt)
+            generate_hashes_for_string(s, partition_id.as_deref(), salt)
                 .map(|x| x.into_iter().collect::<Vec<_>>())
                 .map_err(WasmError::new)?,
         )
@@ -359,7 +359,7 @@ impl EncryptedSearch {
         partition_id: Option<String>,
     ) -> Result<Vec<u32>, JsError> {
         Ok(
-            generate_hashes_for_string_with_padding(&s, partition_id.as_deref(), salt, &self.rng)
+            generate_hashes_for_string_with_padding(s, partition_id.as_deref(), salt, &self.rng)
                 .map(|x| x.into_iter().collect::<Vec<_>>())
                 .map_err(WasmError::new)?,
         )
