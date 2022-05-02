@@ -1,6 +1,6 @@
 {
     "types": "recrypt-wasm-binding.d.ts",
-    "version": "0.6.23-pre",
+    "version": "0.6.23",
     "scripts": {
         "test": "node tests/testRunner",
         "testInBrowser": "WEBPACK_MODE=test webpack-dev-server --config webpack.config.js",
