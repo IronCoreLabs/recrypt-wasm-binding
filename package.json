@@ -1,4 +1,5 @@
 {
+    "name": "@ironcorelabs/recrypt-wasm-binding",
     "types": "recrypt-wasm-binding.d.ts",
     "version": "0.6.24-pre",
     "scripts": {
