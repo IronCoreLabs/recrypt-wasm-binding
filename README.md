@@ -86,22 +86,22 @@ A few things are required as dependencies locally before you're able to run the 
 
 ## Compiling WebAssembly Module
 
-Run the `yarn run compile` to compile the Rust code and generate a WASM module. The resulting `.wasm` file and wasm-bindgen shim will be generated in the `target` directory. By default we compile in release mode. Compiling is required before running either the unit tests or benchmarks below.
+Run the `yarn compile` to compile the Rust code and generate a WASM module. The resulting `.wasm` file and wasm-bindgen shim will be generated in the `target` directory. By default we compile in release mode. Compiling is required before running either the unit tests or benchmarks below.
 
 ## Benchmarks
 
-Make sure you run `yarn run compile` first.
+Make sure you run `yarn compile` first.
 
-In order to run the benchmarks in the browser you can run `yarn run benchmark`. This will startup a webpack server at [http://localhost:8080](http://localhost:8080) which when opened will automatically start running the unit tests and display the results to the screen and developer console.
+In order to run the benchmarks in the browser you can run `yarn benchmark`. This will startup a webpack server at [http://localhost:8080](http://localhost:8080) which when opened will automatically start running the unit tests and display the results to the screen and developer console.
 
 ## Unit Tests
 
-Make sure you run `yarn run compile` first.
+Make sure you run `yarn compile` first.
 
 Unit tests can be run in two ways
 
 -   `yarn test` will run the tests via the command line via Chrome Headless and report the results at the end.
--   `yarn run testInBrowser` will startup a webpack server at [http://localhost:8080](http://localhost:8080) which you can visit to see the results of the test within the browser directly.
+-   `yarn testInBrowser` will startup a webpack server at [http://localhost:8080](http://localhost:8080) which you can visit to see the results of the test within the browser directly.
 
 ## License
 

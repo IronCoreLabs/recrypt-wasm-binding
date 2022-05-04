@@ -4,7 +4,7 @@
     "scripts": {
         "test": "node tests/testRunner",
         "testInBrowser": "WEBPACK_MODE=test webpack-dev-server --config webpack.config.js",
-        "cargoBuild": "cargo build --release --target wasm32-unknown-unknown",
+        "cargoBuild": "cargo build --release --target wasm32-unknown-unknown --target-dir ./target",
         "generateBindgenShim": "wasm-bindgen target/wasm32-unknown-unknown/release/recrypt_wasm_binding.wasm --browser --out-dir target --remove-name-section",
         "compile": "yarn run cargoBuild && yarn run generateBindgenShim",
         "benchmark": "WEBPACK_MODE=benchmark webpack-dev-server --config webpack.config.js --compress",

@@ -16,7 +16,7 @@ pub struct WasmError<E> {
 
 impl<E> WasmError<E> {
     pub fn new(error: E) -> WasmError<E> {
-        WasmError { error: error }
+        WasmError { error }
     }
 }
 impl<E: core::fmt::Display> From<WasmError<E>> for JsError {
@@ -174,8 +174,8 @@ pub fn js_object_to_transform_key(js_object: JsTransformKey) -> Result<Transform
  */
 pub fn transform_key_to_js_object(transform_key: TransformKey) -> JsTransformKey {
     JsTransformKey {
-        toPublicKey: public_key_to_js_object(transform_key.to_public_key().clone()),
-        ephemeralPublicKey: public_key_to_js_object(transform_key.ephemeral_public_key().clone()),
+        toPublicKey: public_key_to_js_object(*transform_key.to_public_key()),
+        ephemeralPublicKey: public_key_to_js_object(*transform_key.ephemeral_public_key()),
         encryptedTempKey: transform_key.encrypted_temp_key().bytes().to_vec(),
         hashedTempKey: transform_key.hashed_temp_key().bytes().to_vec(),
         publicSigningKey: transform_key.public_signing_key().bytes().to_vec(),
@@ -208,9 +208,9 @@ pub fn js_object_to_transform_blocks(
         })
         .collect();
 
-    Ok(blocks.and_then(|transform_blocks| {
+    blocks.and_then(|transform_blocks| {
         Ok(NonEmptyVec::try_from(&transform_blocks).map_err(WasmError::new)?)
-    })?)
+    })
 }
 
 /**
@@ -222,11 +222,9 @@ pub fn transform_blocks_to_js_object(
     transform_blocks
         .iter()
         .map(|block| JsTransformBlock {
-            publicKey: public_key_to_js_object(block.public_key().clone()),
+            publicKey: public_key_to_js_object(*block.public_key()),
             encryptedTempKey: block.encrypted_temp_key().bytes().to_vec(),
-            randomTransformPublicKey: public_key_to_js_object(
-                block.random_transform_public_key().clone(),
-            ),
+            randomTransformPublicKey: public_key_to_js_object(*block.random_transform_public_key()),
             randomTransformEncryptedTempKey: block
                 .encrypted_random_transform_temp_key()
                 .bytes()
@@ -257,20 +255,20 @@ pub fn js_object_to_encrypted_value(
     let encrypted_value = if js_object.transformBlocks.len() > 0 {
         let transform_blocks = js_object_to_transform_blocks(js_object.transformBlocks)?;
         EncryptedValue::TransformedValue {
-            ephemeral_public_key: ephemeral_public_key,
-            encrypted_message: encrypted_message,
-            auth_hash: auth_hash,
-            public_signing_key: public_signing_key,
-            signature: signature,
-            transform_blocks: transform_blocks,
+            ephemeral_public_key,
+            encrypted_message,
+            auth_hash,
+            public_signing_key,
+            signature,
+            transform_blocks,
         }
     } else {
         EncryptedValue::EncryptedOnceValue {
-            ephemeral_public_key: ephemeral_public_key,
-            encrypted_message: encrypted_message,
-            auth_hash: auth_hash,
-            public_signing_key: public_signing_key,
-            signature: signature,
+            ephemeral_public_key,
+            encrypted_message,
+            auth_hash,
+            public_signing_key,
+            signature,
         }
     };
     Ok(encrypted_value)
