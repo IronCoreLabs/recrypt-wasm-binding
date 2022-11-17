@@ -27,9 +27,9 @@ jobs:
     - run: cargo fmt --all -- --check
     - uses: actions-rs/install@v0.1
       with:
-        crate: cargo-sort-ck
+        crate: cargo-sort
         version: latest
-    - run: cargo-sort-ck
+    - run: cargo sort --check
     - name: Cancel workflow
       if: failure()
       uses: andymckay/cancel-action@0.2
