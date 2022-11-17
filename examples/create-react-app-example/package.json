@@ -4,7 +4,7 @@
     "private": true,
     "dependencies": {
         "@craco/craco": "^6.4.3",
-        "@ironcorelabs/recrypt-wasm-binding": "^0.6.36-pre",
+        "@ironcorelabs/recrypt-wasm-binding": "^0.6.36",
         "react": "^18.1.0",
         "react-dom": "^18.1.0",
         "react-scripts": "5.0.1"

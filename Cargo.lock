@@ -415,7 +415,7 @@ dependencies = [
 
 [[package]]
 name = "recrypt-wasm-binding"
-version = "0.6.36-pre"
+version = "0.6.36"
 dependencies = [
  "ironcore-search-helpers",
  "js-sys",
