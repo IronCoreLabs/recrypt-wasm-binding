@@ -32,7 +32,7 @@ jobs:
     - run: cargo sort --check
     - name: Cancel workflow
       if: failure()
-      uses: andymckay/cancel-action@0.2
+      uses: andymckay/cancel-action@0.3
   clippy:
     name: Clippy
     runs-on: ubuntu-22.04
