@@ -1,4 +1,0 @@
-- op: remove
-  path: /jobs/coverage
-- op: remove
-  path: /jobs/cargo-test
