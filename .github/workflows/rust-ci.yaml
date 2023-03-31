@@ -12,6 +12,4 @@ on:
 jobs:
   rust-ci:
     uses: IronCoreLabs/workflows/.github/workflows/rust-ci.yaml@rust-ci-v0
-    with:
-      run_clippy: true
     secrets: inherit
