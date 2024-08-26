@@ -40,7 +40,9 @@ function runTest() {
             const failures = await page.evaluate((el) => el.innerHTML, await page.$(".failures em"));
             console.log(`\nTests Passed: ${success}\n`);
             console.error(`\nTests Failed: ${failures}\n`);
-            server.close();
+            server.stopCallback(() => {
+                console.log("\nServer closed.");
+            });
             if (parseInt(failures) > 0) {
                 const failureErrorMessages = await page.evaluate(() => {
                     const errorMessages = document.querySelectorAll("pre.error");
