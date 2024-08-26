@@ -24,7 +24,7 @@ const puppeteer = require("puppeteer");
 const webpack = require("webpack");
 const WebpackDevServer = require("webpack-dev-server");
 const config = require("../webpack.config");
-const server = new WebpackDevServer(webpack(config), {});
+const server = new WebpackDevServer({host: "localhost", port: 8080}, webpack(config));
 
 /**
  * Startup Puppeteer to hit the webpack-dev-server endpoint which will run our unit tests.
@@ -59,11 +59,12 @@ function runTest() {
 }
 
 console.log("Starting up webserver to host wasm source...\n");
-server.listen(8080, "localhost", (err) => {
+server.startCallback((err) => {
     if (err) {
-        server.close();
-        console.error(err);
-        process.exit(-1);
+        server.stopCallback(() => {
+            console.error(err);
+            process.exit(-1);
+        });
     }
     runTest();
 });
