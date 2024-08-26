@@ -1,35 +1,35 @@
 {
-    "name": "@ironcorelabs/recrypt-wasm-binding",
-    "types": "recrypt-wasm-binding.d.ts",
-    "version": "0.6.54-pre",
-    "scripts": {
-        "test": "node tests/testRunner",
-        "testInBrowser": "WEBPACK_MODE=test webpack-dev-server --config webpack.config.js",
-        "cargoBuild": "cargo build --release --target wasm32-unknown-unknown --target-dir ./target",
-        "generateBindgenShim": "wasm-bindgen target/wasm32-unknown-unknown/release/recrypt_wasm_binding.wasm --browser --out-dir target --remove-name-section",
-        "compile": "yarn run cargoBuild && yarn run generateBindgenShim",
-        "benchmark": "WEBPACK_MODE=benchmark webpack-dev-server --config webpack.config.js --compress",
-        "pack": "wasm-pack build --scope ironcorelabs --no-typescript"
-    },
-    "devDependencies": {
-        "@types/source-map": "0.5.2",
-        "html-webpack-plugin": "^4.5.2",
-        "html-webpack-tags-plugin": "^2.0.17",
-        "puppeteer": "^5.2.1",
-        "shelljs": "^0.8.5",
-        "text-encoding": "^0.7.0",
-        "ts-loader": "^8.0.1",
-        "typescript": "^3.9.7",
-        "webpack": "^4.46.0",
-        "webpack-cli": "^3.3.12",
-        "webpack-dev-server": "^3.11.0"
-    },
-    "prettier": {
-        "printWidth": 160,
-        "tabWidth": 4,
-        "trailingComma": "es5",
-        "bracketSpacing": false,
-        "jsxBracketSameLine": true,
-        "arrowParens": "always"
-    }
+  "name": "@ironcorelabs/recrypt-wasm-binding",
+  "types": "recrypt-wasm-binding.d.ts",
+  "version": "0.6.54-pre",
+  "scripts": {
+    "test": "node tests/testRunner",
+    "testInBrowser": "WEBPACK_MODE=test webpack serve --config webpack.config.js",
+    "cargoBuild": "cargo build --release --target wasm32-unknown-unknown --target-dir ./target",
+    "generateBindgenShim": "wasm-bindgen target/wasm32-unknown-unknown/release/recrypt_wasm_binding.wasm --browser --out-dir target --remove-name-section",
+    "compile": "yarn run cargoBuild && yarn run generateBindgenShim",
+    "benchmark": "WEBPACK_MODE=benchmark webpack serve --config webpack.config.js --compress",
+    "pack": "wasm-pack build --scope ironcorelabs --no-typescript"
+  },
+  "devDependencies": {
+    "@types/source-map": "0.5.2",
+    "html-webpack-plugin": "^4.5.2",
+    "html-webpack-tags-plugin": "^2.0.17",
+    "puppeteer": "^5.2.1",
+    "shelljs": "^0.8.5",
+    "text-encoding": "^0.7.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.5.4",
+    "webpack": "^5.94.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
+  },
+  "prettier": {
+    "printWidth": 160,
+    "tabWidth": 4,
+    "trailingComma": "es5",
+    "bracketSpacing": false,
+    "jsxBracketSameLine": true,
+    "arrowParens": "always"
+  }
 }
