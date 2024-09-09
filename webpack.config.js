@@ -22,7 +22,9 @@ if (process.env.WEBPACK_MODE === "test") {
 
 module.exports = {
     devServer: {
-        overlay: true,
+        client: {
+            overlay: true,
+        },
     },
     entry,
     output: {
@@ -40,6 +42,9 @@ module.exports = {
                 use: ["ts-loader"],
             },
         ],
+    },
+    experiments: {
+        syncWebAssembly: true,
     },
     plugins: [
         new HtmlWebpackPlugin(),

@@ -1,6 +1,7 @@
 #![allow(non_snake_case)]
 
 use crate::util::{self, JsError, WasmError};
+use gloo_utils::format::JsValueSerdeExt;
 use ironcore_search_helpers::{
     generate_hashes_for_string, generate_hashes_for_string_with_padding, transliterate_string,
 };

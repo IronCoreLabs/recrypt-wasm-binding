@@ -381,8 +381,8 @@ import("../Api256Shim").then((Recrypt) => {
                         api.decrypt(lvl0EncryptedValue, decryptKeys.privateKey);
                     } catch (e) {
                         expect(e).to.be.a("Error");
-                        expect(e.message).to.be.string;
-                        expect(e.message).not.to.have.lengthOf(0);
+                        expect((e as any).message).to.be.string;
+                        expect((e as any).message).not.to.have.lengthOf(0);
                         done();
                     }
                 });
@@ -553,7 +553,6 @@ import("../Api256Shim").then((Recrypt) => {
                 );
             });
         });
-
     });
     mocha.checkLeaks();
     mocha.run();

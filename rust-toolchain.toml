@@ -1,0 +1,5 @@
+[toolchain]
+profile = "default"
+channel = "1.80.0"
+components = ["rust-src", "rust-analyzer"]
+targets = [ "wasm32-unknown-unknown" ]
