@@ -434,7 +434,7 @@ dependencies = [
 
 [[package]]
 name = "recrypt-wasm-binding"
-version = "0.6.56-pre"
+version = "0.6.56"
 dependencies = [
  "gloo-utils",
  "ironcore-search-helpers",
