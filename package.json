@@ -20,9 +20,9 @@
         "text-encoding": "^0.7.0",
         "ts-loader": "^9.5.1",
         "typescript": "^5.5.4",
-        "webpack": "^5.94.0",
+        "webpack": "^5.97.1",
         "webpack-cli": "^5.1.4",
-        "webpack-dev-server": "^5.0.4"
+        "webpack-dev-server": "^5.1.0"
     },
     "prettier": {
         "printWidth": 160,
