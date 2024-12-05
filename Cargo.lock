@@ -406,9 +406,9 @@ dependencies = [
 
 [[package]]
 name = "recrypt"
-version = "0.14.0"
+version = "0.14.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dfd2ae953cf52a4e89d17634784caf8a509c69b1a4704990e0a03cdbd2e950d4"
+checksum = "ddc95f176824df9d3a6ce581e348ff99f86be38469645d3781586a1adb40c419"
 dependencies = [
  "cfg-if",
  "clear_on_drop",
