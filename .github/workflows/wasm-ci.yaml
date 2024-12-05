@@ -16,7 +16,7 @@ jobs:
         node_version:
         - '18'
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions-rs/toolchain@v1
       with:
         profile: minimal
@@ -26,11 +26,11 @@ jobs:
     - uses: IronCoreLabs/rust-install@v0.1.0
       with:
         crate: wasm-bindgen-cli
-        version: 0.2.92 # needs to match Cargo.toml and flake.nix version
+        version: 0.2.95 # needs to match Cargo.toml and flake.nix version
         accesskey: AKIAU2WBY6VDTC563V7G
         secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
-        os: ubuntu-20.04
-    - uses: actions/setup-node@v3
+        os: ubuntu-22.04
+    - uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node_version }}
         cache: yarn
