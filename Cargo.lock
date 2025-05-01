@@ -430,7 +430,7 @@ dependencies = [
 
 [[package]]
 name = "recrypt-wasm-binding"
-version = "0.6.60-pre"
+version = "0.6.60"
 dependencies = [
  "getrandom",
  "gloo-utils",

@@ -1,6 +1,6 @@
 [package]
 name = "recrypt-wasm-binding"
-version = "0.6.60-pre"
+version = "0.6.60"
 authors = ["IronCore Labs <code@ironcorelabs.com>"]
 description = "Bindings to run recrypt-rs as a WebAssembly module."
 license = "AGPL-3.0-only"

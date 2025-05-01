@@ -1,7 +1,7 @@
 {
     "name": "@ironcorelabs/recrypt-wasm-binding",
     "types": "recrypt-wasm-binding.d.ts",
-    "version": "0.6.60-pre",
+    "version": "0.6.60",
     "scripts": {
         "test": "node tests/testRunner",
         "testInBrowser": "WEBPACK_MODE=test webpack serve --config webpack.config.js",
