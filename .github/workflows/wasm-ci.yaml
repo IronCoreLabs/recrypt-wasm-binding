@@ -23,7 +23,7 @@ jobs:
         toolchain: stable
         override: true
         target: wasm32-unknown-unknown
-    - uses: IronCoreLabs/rust-install@v0.1.0
+    - uses: IronCoreLabs/rust-install@v0.1.2
       with:
         crate: wasm-bindgen-cli
         version: 0.2.95 # needs to match Cargo.toml and flake.nix version
