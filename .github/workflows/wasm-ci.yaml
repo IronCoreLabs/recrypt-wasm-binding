@@ -27,7 +27,7 @@ jobs:
       with:
         crate: wasm-bindgen-cli
         version: 0.2.95 # needs to match Cargo.toml and flake.nix version
-        accesskey: AKIAU2WBY6VDTC563V7G
+        accesskey: ${{ vars.TOOL_CACHE_ACCESS_KEY_ID }}
         secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
         os: ubuntu-22.04
     - uses: actions/setup-node@v4
