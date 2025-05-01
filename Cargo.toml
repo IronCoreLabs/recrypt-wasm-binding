@@ -15,12 +15,12 @@ getrandom = { version = "0.2", features = ["wasm-bindgen"] }
 gloo-utils = { version = "0.2", features = ["serde"] }
 ironcore-search-helpers = "0.2"
 js-sys = "0.3"
-rand = "0.8"
-rand_chacha = "0.3"
+rand = "0.9"
+rand_chacha = "0.9"
 recrypt = { version = "0.14", features = ["wasm"], default-features = false }
 serde = "1"
 serde_derive = "1"
-wasm-bindgen = { version = "=0.2.95" }
+wasm-bindgen = { version = "=0.2.99" }
 
 [profile.dev]
 opt-level = 2
