@@ -7,7 +7,10 @@ updates:
   groups:
     dependencies:
       patterns:
-      - "*" # update all the dependencies at once
+      - "*"
+      exclude-patterns:
+      - "wasm-bindgen" # This requires updates to CI/flake
+      - "rand*"
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
