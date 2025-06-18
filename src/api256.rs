@@ -5,7 +5,7 @@ use gloo_utils::format::JsValueSerdeExt;
 use ironcore_search_helpers::{
     generate_hashes_for_string, generate_hashes_for_string_with_padding, transliterate_string,
 };
-use rand::{rngs::adapter::ReseedingRng, SeedableRng};
+use rand::{SeedableRng, rngs::adapter::ReseedingRng};
 use recrypt::{
     api::{
         DefaultRng, Ed25519, Ed25519Signature, Hashable, Plaintext, PrivateKey, PublicSigningKey,
@@ -328,7 +328,7 @@ impl EncryptedSearch {
             rng: Mutex::new(ReseedingRng::new(
                 rand_chacha::ChaChaCore::from_entropy(),
                 BYTES_BEFORE_RESEEDING,
-                rand::rngs::OsRng::default(),
+                rand::rngs::OsRng,
             )),
         }
     }

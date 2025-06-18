@@ -252,7 +252,7 @@ pub fn js_object_to_encrypted_value(
     let signature =
         Ed25519Signature::new(vector_to_fixed_64_bytes(&js_object.signature, "signature"));
 
-    let encrypted_value = if js_object.transformBlocks.len() > 0 {
+    let encrypted_value = if !js_object.transformBlocks.is_empty() {
         let transform_blocks = js_object_to_transform_blocks(js_object.transformBlocks)?;
         EncryptedValue::TransformedValue {
             ephemeral_public_key,
