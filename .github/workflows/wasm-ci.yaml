@@ -30,7 +30,7 @@ jobs:
         accesskey: ${{ vars.TOOL_CACHE_ACCESS_KEY_ID }}
         secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
         os: ubuntu-22.04
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v5
       with:
         node-version: ${{ matrix.node_version }}
         cache: yarn
