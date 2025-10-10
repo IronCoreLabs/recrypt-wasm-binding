@@ -23,13 +23,10 @@ jobs:
         toolchain: stable
         override: true
         target: wasm32-unknown-unknown
-    - uses: IronCoreLabs/rust-install@v0.1.2
+    - uses: taiki-e/cache-cargo-install-action@v2
       with:
-        crate: wasm-bindgen-cli
-        version: 0.2.100 # needs to match Cargo.toml and flake.nix version
-        accesskey: ${{ vars.TOOL_CACHE_ACCESS_KEY_ID }}
-        secretkey: ${{ secrets.TOOL_CACHE_SECRET_KEY }}
-        os: ubuntu-22.04
+        # needs to match Cargo.toml and flake.nix version
+        tool: wasm-bindgen-cli@0.2.100
     - uses: actions/setup-node@v5
       with:
         node-version: ${{ matrix.node_version }}
