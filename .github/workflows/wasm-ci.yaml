@@ -27,7 +27,7 @@ jobs:
       with:
         # needs to match Cargo.toml and flake.nix version
         tool: wasm-bindgen-cli@0.2.100
-    - uses: actions/setup-node@v5
+    - uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node_version }}
         cache: yarn
