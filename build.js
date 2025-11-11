@@ -35,7 +35,7 @@ shell.exec("cargo update");
 shell.exec("cargo install wasm-pack");
 shell.exec("yarn run compile");
 shell.exec("yarn test");
-shell.exec("yarn run pack");
+shell.exec("PATH=~/.cargo/bin:$PATH yarn run pack");
 
 //wasm-pack generates a .gitignore file with '*' that ends up causing not all of our published content to get pushed out, delete it and instead
 //use an empty .npmignore file so that NPM publishes everything within the directory
