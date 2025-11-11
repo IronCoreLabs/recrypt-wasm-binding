@@ -12,7 +12,7 @@ module.exports = {
                 topLevelAwait: true,
             };
             webpackConfig.resolve.fallback = {
-                buffer: require.resolve("buffer/"),
+                buffer: require.resolve("buffer"),
             };
             webpackConfig.module.rules.forEach((rule) => {
                 (rule.oneOf || []).forEach((oneOf) => {
