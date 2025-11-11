@@ -8,8 +8,8 @@
         "noUnusedLocals": true,
         "declaration": false,
         "target": "ES2015",
-        "module": "esnext",
-        "moduleResolution": "node",
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
         "lib": ["es6", "dom"]
     },
     "exclude": ["node_modules"]

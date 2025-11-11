@@ -12,7 +12,6 @@
  * + Run unit tests to ensure the library is in good shape for publishing.
  * + TypeScript compile the API shim file
  * + Make any tweaks to the distribution directory (/pkg) to add shim and types file.
- * + Do a dry run of npm publishing or perform an actual publish step if `--publish` option is provided.
  */
 
 const fs = require("fs");
@@ -25,7 +24,6 @@ shell.set("-e");
 //Ensure that our directory is set to the root of the repo
 const rootDirectory = path.dirname(process.argv[1]);
 shell.cd(`${rootDirectory}/`);
-const shouldPublish = process.argv.slice(2).indexOf("--publish") !== -1;
 
 //Cleanup the previous build, if it exists
 shell.rm("-rf", "./pkg");
@@ -34,6 +32,7 @@ shell.rm("-rf", "./pkg");
 shell.exec("yarn");
 shell.exec("cargo clean");
 shell.exec("cargo update");
+shell.exec("cargo install wasm-pack");
 shell.exec("yarn run compile");
 shell.exec("yarn test");
 shell.exec("yarn run pack");
@@ -47,7 +46,9 @@ fs.writeFileSync("./pkg/.npmignore", "");
 shell.cp("./recrypt_wasm_binding.d.ts", "./pkg");
 
 //Compile our wasm-bindgen shim from TS to ES6 JS
-shell.exec("./node_modules/typescript/bin/tsc --lib es6 --target ES2015 --sourceMap false --module esnext --outDir ./pkg lib/Api256Shim.ts");
+shell.exec(
+    "./node_modules/typescript/bin/tsc --lib es6 --target ES2015 --sourceMap false --module nodenext --moduleResolution nodenext --outDir ./pkg lib/Api256Shim.ts"
+);
 //Tweak wasm-bindgen import location since we moved the file to the same directory as the wasm-bindgen produced shim
 shell.sed("-i", `from "../target/`, `from "./`, "./pkg/Api256Shim.js");
 
@@ -61,13 +62,3 @@ generatedPackageJson.types = "recrypt_wasm_binding.d.ts";
 fs.writeFileSync("./pkg/package.json", JSON.stringify(generatedPackageJson, null, 2));
 
 shell.cp("./LICENSE", "./pkg");
-
-shell.pushd("./pkg");
-
-shell.exec(
-    shouldPublish ? `git tag ${generatedPackageJson.version} && git push origin ${generatedPackageJson.version}` : "echo No git tag generated during dry run"
-);
-
-shell.exec(shouldPublish ? "npm publish --access public" : "npm publish --dry-run");
-
-shell.popd();

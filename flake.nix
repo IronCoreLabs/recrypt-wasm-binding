@@ -15,9 +15,9 @@
       {
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
-            nodejs_20
+            nodejs_24
             protobuf
-            (yarn.override { nodejs = nodejs_20; })
+            (yarn.override { nodejs = nodejs_24; })
             rusttoolchain
             pkg-config
             wasm-bindgen-cli
