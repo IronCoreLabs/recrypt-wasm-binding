@@ -2,38 +2,40 @@ name: WASM CI
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-'on':
+on:
   push:
     branches:
-    - main
-  pull_request: null
-  workflow_dispatch: null
+      - main
+  pull_request:
+  workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
         node_version:
-        - '18'
+          - 24
     steps:
-    - uses: actions/checkout@v5
-    - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        override: true
-        target: wasm32-unknown-unknown
-    - uses: taiki-e/cache-cargo-install-action@v2
-      with:
-        # needs to match Cargo.toml and flake.nix version
-        tool: wasm-bindgen-cli@0.2.100
-    - uses: actions/setup-node@v6
-      with:
-        node-version: ${{ matrix.node_version }}
-        cache: yarn
-    - name: Install modules
-      run: yarn
-    - name: Compile
-      run: cargo update && yarn run compile
-    - name: Run tests
-      run: yarn run test
+      - uses: actions/checkout@v5
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          target: wasm32-unknown-unknown
+      - uses: taiki-e/cache-cargo-install-action@v2
+        with:
+          # needs to match Cargo.toml and flake.nix version
+          tool: wasm-bindgen-cli@0.2.104
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: yarn
+      - name: Install modules
+        run: yarn
+      - name: Compile
+        run: cargo update && yarn run compile
+      - name: Run tests
+        run: yarn run test
+      - name: Test build
+        run: ./build.js

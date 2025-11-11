@@ -9,7 +9,8 @@
         "generateBindgenShim": "wasm-bindgen target/wasm32-unknown-unknown/release/recrypt_wasm_binding.wasm --browser --out-dir target --remove-name-section",
         "compile": "yarn run cargoBuild && yarn run generateBindgenShim",
         "benchmark": "WEBPACK_MODE=benchmark webpack serve --config webpack.config.js --compress",
-        "pack": "wasm-pack build --scope ironcorelabs --no-typescript"
+        "pack": "wasm-pack build --scope ironcorelabs --no-typescript",
+        "prepublishOnly": "[ -f Api256Shim.js ] || (echo \"Api256Shim.js not found. Ensure you're publishing from ./pkg.\" && exit 1)"
     },
     "devDependencies": {
         "@types/source-map": "0.5.2",

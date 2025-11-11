@@ -1,8 +1,4 @@
-Release Checklist
-=================
+# Release Checklist
 
-* Decide on the new version number and update it within the `Cargo.toml` file. This will be used as the NPM version number.
-* Write the CHANGELOG.md entry for the release by looking at the PRs.
-* Commit `Cargo.toml` (for version number) and `CHANGELOG.md`.
-* Run the build script, `./build.js` and make sure no errors are generated. This does a dry run of the release process without actually releasing anything.
-* Run `./build.js --publish` which will generate the necessary files for NPM, add a git tag, push the git tag, and deploy the code to NPM.
+-   PR and merge the `CHANGELOG.md` entry for the release by looking at the commits.
+-   Decide on the new version number and run the [Bump Version](https://github.com/IronCoreLabs/recrypt-wasm-binding/actions/workflows/bump-version.yaml) action. This will create a GitHub release and trigger the Typescript Release action.

@@ -1,10 +1,10 @@
 {
     "name": "create-react-app-example",
-    "version": "0.1.0",
+    "version": "0.6.67-pre",
     "private": true,
     "dependencies": {
         "@craco/craco": "^6.4.3",
-        "@ironcorelabs/recrypt-wasm-binding": "^0.6.67-pre",
+        "@ironcorelabs/recrypt-wasm-binding": "latest",
         "react": "^18.3.0",
         "react-dom": "^18.3.0",
         "react-scripts": "5.0.1"
