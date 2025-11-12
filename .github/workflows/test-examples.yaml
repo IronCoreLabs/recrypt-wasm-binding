@@ -16,4 +16,4 @@ jobs:
           cache: yarn
       - name: Build example
         run: yarn && yarn build
-        working-directory: examples/create-create-app-example
+        working-directory: examples/create-app-example
