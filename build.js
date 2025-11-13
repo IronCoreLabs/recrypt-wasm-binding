@@ -33,7 +33,7 @@ shell.exec("yarn");
 shell.exec("cargo clean");
 shell.exec("cargo update");
 shell.exec("cargo install wasm-pack");
-shell.exec("cargo install cargo install wasm-bindgen-cli@0.2.104"); // version must be kept in-sync with Cargo.toml
+shell.exec("cargo install wasm-bindgen-cli@0.2.104"); // version must be kept in-sync with Cargo.toml
 shell.exec("yarn run compile");
 shell.exec("yarn test");
 shell.exec("PATH=~/.cargo/bin:$PATH yarn run pack");
