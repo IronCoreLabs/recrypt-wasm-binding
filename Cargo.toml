@@ -20,6 +20,7 @@ rand_chacha = "0.3"
 recrypt = { version = "0.14", features = ["wasm"], default-features = false }
 serde = "1"
 serde_derive = "1"
+# Must be kept in-sync with build.js and GitHub workflows
 wasm-bindgen = { version = "=0.2.104" }
 
 [profile.dev]
