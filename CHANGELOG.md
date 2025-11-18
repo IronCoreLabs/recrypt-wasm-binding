@@ -1,10 +1,16 @@
 # Changelog
 
+## 0.7.1
+
+-   Revert release structure of 0.7.1 back to commonjs.
+
 ## 0.7.0
 
 -   Upgrade all JS and Rust dependencies
 -   Upgrade to Rust 2024 edition
 -   Rework release process
+
+Deprecated: unintentional move to only `module` type.
 
 ## 0.6.0
 
