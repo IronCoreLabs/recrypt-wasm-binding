@@ -9,8 +9,7 @@
         "declaration": false,
         "skipLibCheck": true,
         "target": "ES2015",
-        "module": "nodenext",
-        "moduleResolution": "nodenext",
+        "module": "esnext",
         "lib": ["es6", "dom"]
     },
     "exclude": ["node_modules"]
