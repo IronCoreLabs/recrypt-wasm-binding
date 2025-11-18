@@ -265,7 +265,6 @@ export const addPrivateKeys = (privateKeyA: Uint8Array, privateKeyB: Uint8Array)
  */
 export const subtractPrivateKeys = (privateKeyA: Uint8Array, privateKeyB: Uint8Array): Uint8Array => Recrypt.subtractPrivateKeys(privateKeyA, privateKeyB);
 
-
 /**
  * Export the entire EncryptedSearch struct out directly. No need to shim this at any level.
  */
