@@ -23,7 +23,7 @@ jobs:
           toolchain: stable
           override: true
           target: wasm32-unknown-unknown
-      - uses: taiki-e/cache-cargo-install-action@v2
+      - uses: taiki-e/cache-cargo-install-action@v3
         with:
           # needs to match Cargo.toml and flake.nix version
           tool: wasm-bindgen-cli@0.2.104
