@@ -415,7 +415,7 @@ dependencies = [
 
 [[package]]
 name = "recrypt-wasm-binding"
-version = "0.7.2"
+version = "0.7.3-pre"
 dependencies = [
  "digest 0.11.0-rc.8",
  "getrandom",
