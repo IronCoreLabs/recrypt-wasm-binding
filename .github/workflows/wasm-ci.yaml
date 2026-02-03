@@ -26,7 +26,7 @@ jobs:
       - uses: taiki-e/cache-cargo-install-action@v3
         with:
           # needs to match Cargo.toml and flake.nix version
-          tool: wasm-bindgen-cli@0.2.104
+          tool: wasm-bindgen-cli@0.2.108
       - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node_version }}

@@ -11,17 +11,21 @@ edition = "2024"
 crate-type = ["cdylib"]
 
 [dependencies]
-getrandom = { version = "0.2", features = ["wasm-bindgen"] }
+# remove once the dalek RC isn't broken (they depended on digest RC that moved something dalek uses in a newer RC release).
+# Current dalek is v5.0.0-pre.1, newer ones exist that may have already fixed this but we can't use them till rand 0.10
+# is out and threaded.
+digest = "=0.11.0-rc.8"
+getrandom = { version = "0.3", features = ["wasm_js"] }
 gloo-utils = { version = "0.2", features = ["serde"] }
-ironcore-search-helpers = "0.2"
+ironcore-search-helpers = "0.3"
 js-sys = "0.3"
-rand = "0.8"
-rand_chacha = "0.3"
-recrypt = { version = "0.14", features = ["wasm"], default-features = false }
+rand = "0.9"
+rand_chacha = "0.9"
+recrypt = { version = "0.15", features = ["wasm"], default-features = false }
 serde = "1"
 serde_derive = "1"
 # Must be kept in-sync with build.js and GitHub workflows
-wasm-bindgen = { version = "=0.2.104" }
+wasm-bindgen = { version = "=0.2.108" }
 
 [profile.dev]
 opt-level = 2
