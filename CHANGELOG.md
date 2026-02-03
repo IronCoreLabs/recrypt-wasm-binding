@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.2
+
+- Upgrade JS and Rust dependencies
+- Bump to rand 0.9
+
 ## 0.7.1
 
 -   Revert release structure of 0.7.1 back to commonjs.

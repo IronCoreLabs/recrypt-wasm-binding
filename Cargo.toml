@@ -21,7 +21,7 @@ recrypt = { version = "0.15", features = ["wasm"], default-features = false }
 serde = "1"
 serde_derive = "1"
 # Must be kept in-sync with build.js and GitHub workflows
-wasm-bindgen = { version = "=0.2.104" }
+wasm-bindgen = { version = "=0.2.108" }
 
 [profile.dev]
 opt-level = 2
