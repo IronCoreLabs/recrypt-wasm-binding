@@ -6,9 +6,9 @@ on:
 
 jobs:
   rust-daily:
-    uses: IronCoreLabs/workflows/.github/workflows/rust-daily.yaml@rust-daily-v0
+    uses: IronCoreLabs/workflows/.github/workflows/rust-daily.yaml@rust-daily-v1
     with:
-      matrix_include: '[]'
+      matrix_include: "[]"
       rust_targets: '["wasm32-unknown-unknown"]'
       rust_versions: '["stable", "beta"]'
     secrets: inherit
