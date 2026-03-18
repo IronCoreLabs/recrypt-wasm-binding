@@ -1,0 +1,8 @@
+name: Rust Cargo Update
+on:
+  workflow_dispatch:
+
+jobs:
+  rust-daily:
+    uses: IronCoreLabs/workflows/.github/workflows/rust-cargo-update.yaml@rust-cargo-update-v1
+    secrets: inherit
