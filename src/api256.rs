@@ -5,11 +5,10 @@ use gloo_utils::format::JsValueSerdeExt;
 use ironcore_search_helpers::{
     generate_hashes_for_string, generate_hashes_for_string_with_padding, transliterate_string,
 };
-use rand::rngs::ReseedingRng;
 use recrypt::{
     api::{
         DefaultRng, Ed25519, Ed25519Signature, Hashable, Plaintext, PrivateKey, PublicSigningKey,
-        RandomBytes, Recrypt, SchnorrSignature, Sha256, Sha256Hashing, SigningKeypair,
+        RandomBytes, Recrypt, SchnorrSignature, Sha256, Sha256Hashing, SigningKeypair, ReseedingRng
     },
     prelude::*,
 };
@@ -322,12 +321,9 @@ pub struct EncryptedSearch {
 impl EncryptedSearch {
     #[wasm_bindgen(constructor)]
     pub fn new() -> EncryptedSearch {
-        // 10 MB
-        const BYTES_BEFORE_RESEEDING: u64 = 1024 * 1024 * 10;
         EncryptedSearch {
             rng: Mutex::new(
-                ReseedingRng::new(BYTES_BEFORE_RESEEDING, rand::rngs::OsRng)
-                    .expect("OsRng was unavailable."),
+                ReseedingRng::default(),
             ),
         }
     }
