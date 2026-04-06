@@ -8,7 +8,8 @@ use ironcore_search_helpers::{
 use recrypt::{
     api::{
         DefaultRng, Ed25519, Ed25519Signature, Hashable, Plaintext, PrivateKey, PublicSigningKey,
-        RandomBytes, Recrypt, SchnorrSignature, Sha256, Sha256Hashing, SigningKeypair, ReseedingRng
+        RandomBytes, Recrypt, ReseedingRng, SchnorrSignature, Sha256, Sha256Hashing,
+        SigningKeypair,
     },
     prelude::*,
 };
@@ -322,9 +323,7 @@ impl EncryptedSearch {
     #[wasm_bindgen(constructor)]
     pub fn new() -> EncryptedSearch {
         EncryptedSearch {
-            rng: Mutex::new(
-                ReseedingRng::default(),
-            ),
+            rng: Mutex::new(ReseedingRng::default()),
         }
     }
 
