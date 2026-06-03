@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         node_version:
@@ -33,6 +33,19 @@ jobs:
           cache: yarn
       - name: Install modules
         run: yarn
+      # @puppeteer/browsers 2.13.2 downloads the Chrome zip but exits before
+      # extraction completes, leaving the binary missing. Extract it ourselves.
+      - name: Install Chrome for Puppeteer
+        run: |
+          rm -rf ~/.cache/puppeteer
+          yarn puppeteer browsers install chrome
+          cd ~/.cache/puppeteer/chrome
+          for z in *.zip; do
+            ver="${z%-chrome-linux64.zip}"
+            rm -rf "linux-${ver}"
+            unzip -oq "$z" -d "linux-${ver}/"
+            rm "$z"
+          done
       - name: Compile
         run: cargo update && yarn run compile
       - name: Run tests
