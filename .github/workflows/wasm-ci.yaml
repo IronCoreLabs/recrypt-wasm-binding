@@ -33,6 +33,8 @@ jobs:
           cache: yarn
       - name: Install modules
         run: yarn
+      - name: Install Chrome for Puppeteer
+        run: yarn puppeteer browsers install chrome
       - name: Compile
         run: cargo update && yarn run compile
       - name: Run tests
