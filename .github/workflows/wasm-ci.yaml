@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         node_version:
@@ -36,7 +36,9 @@ jobs:
       - name: Install Chrome for Puppeteer
         run: |
           rm -rf ~/.cache/puppeteer
-          yarn puppeteer browsers install chrome
+          yarn puppeteer browsers install chrome --format '{{browser}}@{{buildId}} {{path}}'
+          echo "=== Cache contents ==="
+          find ~/.cache/puppeteer -maxdepth 5 2>/dev/null || echo "(empty)"
       - name: Compile
         run: cargo update && yarn run compile
       - name: Run tests
