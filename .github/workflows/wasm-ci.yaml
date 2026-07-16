@@ -33,14 +33,17 @@ jobs:
           cache: yarn
       - name: Install modules
         run: yarn
-      # @puppeteer/browsers 2.13.2 downloads the Chrome zip but exits before
-      # extraction completes, leaving the binary missing. Extract it ourselves.
+      # Older @puppeteer/browsers left the Chrome zip unextracted, so we extract
+      # it ourselves. Current versions extract during install and leave no zip,
+      # so the existence guard skips the loop in that case rather than failing on
+      # a literal `*.zip` under `bash -e`.
       - name: Install Chrome for Puppeteer
         run: |
           rm -rf ~/.cache/puppeteer
           yarn puppeteer browsers install chrome
           cd ~/.cache/puppeteer/chrome
           for z in *.zip; do
+            [ -e "$z" ] || continue
             ver="${z%-chrome-linux64.zip}"
             rm -rf "linux-${ver}"
             unzip -oq "$z" -d "linux-${ver}/"
